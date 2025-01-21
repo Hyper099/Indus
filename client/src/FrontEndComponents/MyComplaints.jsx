@@ -34,6 +34,7 @@ const MyComplaints = () => {
                      <th>Email</th>
                      <th>Phone</th>
                      <th>Message</th>
+                     <th>Urgency</th>
                      <th>Status</th>
                      <th>Date</th>
                   </tr>
@@ -46,6 +47,7 @@ const MyComplaints = () => {
                         <td>{complaint.contact.email}</td>
                         <td>{complaint.contact.phone}</td>
                         <td>{complaint.description}</td>
+                        <td>{complaint.urgency}</td>
                         <td>{complaint.status}</td>
                         <td>{complaint.createdAt}</td>
                      </tr>
