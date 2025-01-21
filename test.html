@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Municipal Corporation - Register Complaints</title>
+   <style>
+      body {
+         margin: 0;
+         font-family: Arial, sans-serif;
+         background-color: #f9f9f9;
+         color: #333;
+      }
+
+      header {
+         background-color: #003366;
+         color: #fff;
+         padding: 20px 10%;
+         text-align: center;
+      }
+
+      header h1 {
+         margin: 0;
+         font-size: 2.5rem;
+      }
+
+      header h2 {
+         margin: 0;
+         font-size: 1.5rem;
+         font-weight: 300;
+      }
+
+      nav {
+         background-color: #0055a5;
+         padding: 10px 10%;
+      }
+
+      nav a {
+         color: white;
+         text-decoration: none;
+         margin: 0 15px;
+         font-weight: bold;
+      }
+
+      nav a:hover {
+         text-decoration: underline;
+      }
+
+      .hero {
+         background-color: #e3e9f1;
+         padding: 40px 10%;
+         text-align: center;
+      }
+
+      .hero h3 {
+         font-size: 2rem;
+         margin-bottom: 20px;
+      }
+
+      .hero p {
+         font-size: 1.2rem;
+      }
+
+      .form-container {
+         background-color: #fff;
+         border: 1px solid #ddd;
+         border-radius: 8px;
+         margin: 40px auto;
+         max-width: 600px;
+         padding: 20px;
+         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-container h3 {
+         text-align: center;
+         margin-bottom: 20px;
+      }
+
+      .form-group {
+         margin-bottom: 15px;
+      }
+
+      .form-group label {
+         display: block;
+         margin-bottom: 5px;
+         font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+         width: 100%;
+         padding: 10px;
+         border: 1px solid #ccc;
+         border-radius: 4px;
+      }
+
+      .form-group textarea {
+         resize: vertical;
+      }
+
+      .form-group button {
+         background-color: #0055a5;
+         color: white;
+         padding: 10px 20px;
+         border: none;
+         border-radius: 4px;
+         font-size: 1rem;
+         cursor: pointer;
+      }
+
+      .form-group button:hover {
+         background-color: #003366;
+      }
+
+      footer {
+         background-color: #003366;
+         color: #fff;
+         padding: 10px 10%;
+         text-align: center;
+         font-size: 0.9rem;
+      }
+   </style>
+</head>
+
+<body>
+   <header>
+      <h1>Municipal Corporation</h1>
+      <h2>Public Complaint Management System</h2>
+   </header>
+
+   <nav>
+      <a href="#home">Home</a>
+      <a href="#complaint">Register Complaint</a>
+      <a href="#status">Check Status</a>
+      <a href="#contact">Contact Us</a>
+   </nav>
+
+   <div class="hero">
+      <h3>Welcome to the Public Complaint Management System</h3>
+      <p>We are committed to resolving your grievances efficiently. Please register your complaints below.</p>
+   </div>
+
+   <div class="form-container" id="complaint">
+      <h3>Register Your Complaint</h3>
+      <form action="#" method="POST">
+         <div class="form-group">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+         </div>
+         <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+         </div>
+         <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+         </div>
+         <div class="form-group">
+            <label for="address">Location/Address:</label>
+            <input type="text" id="address" name="address" required>
+         </div>
+         <div class="form-group">
+            <label for="category">Complaint Category:</label>
+            <select id="category" name="category" required>
+               <option value="">--Select Category--</option>
+               <option value="sanitation">Sanitation</option>
+               <option value="road">Road Maintenance</option>
+               <option value="electricity">Electricity Issues</option>
+               <option value="water">Water Supply</option>
+               <option value="others">Others</option>
+            </select>
+         </div>
+         <div class="form-group">
+            <label for="details">Complaint Details:</label>
+            <textarea id="details" name="details" rows="5" required></textarea>
+         </div>
+         <div class="form-group">
+            <button type="submit">Submit Complaint</button>
+         </div>
+      </form>
+   </div>
+
+   <footer>
+      &copy; 2025 Municipal Corporation. All Rights Reserved. | Designed for Public Service
+   </footer>
+</body>
+
+</html>
