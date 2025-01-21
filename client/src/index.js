@@ -9,7 +9,9 @@ import { AuthProvider } from './AuthContext'; // Import AuthProvider
 import Login from './Authentication/Login';
 import RegisterForm from './Authentication/Register';
 import ComplaintForm from './ComplaintForm';
+import Contact from './FrontEndComponents/Contact';
 import Header from "./FrontEndComponents/Header"; // Import your Header component
+import MyComplaints from './FrontEndComponents/MyComplaints';
 import Home from './Home';
 import ProtectedRoute from './ProtectedRoute';
 import './styles/index.css';
@@ -30,6 +32,8 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/ComplaintForm" element={<ComplaintForm />} />
+          <Route path="/MyComplaints" element={<MyComplaints />} />
+          <Route path="/Contact" element={<Contact />} />
 
           <Route
             path="/home"

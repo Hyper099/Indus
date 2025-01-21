@@ -97,6 +97,16 @@ app.get('/home', auth, async (req, res) => {
   }
 });
 
+app.get('/complaints', async (req, res) => {
+  try {
+    const complaints = await ComplaintModel.find();
+    res.json(complaints);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch complaints", error: err });
+  }
+});
+
+
 // Start the server
 const PORT = 3001;
 app.listen(PORT, () => {

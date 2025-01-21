@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 function ComplaintForm() {
   const [category, setCategory] = useState('');
@@ -8,14 +9,17 @@ function ComplaintForm() {
   const [urgency, setUrgency] = useState('');
   const [photo, setPhoto] = useState(null);
   const [contact, setContact] = useState({ name: '', email: '', phone: '' });
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/ComplaintForm', { category, description, urgency,contact})
-    .then(result=>{console.log(result)
-      
-    })
-    .catch(err=>console.log(err))
+    axios.post('http://localhost:3001/ComplaintForm', { category, description, urgency, contact })
+      .then(result => {
+        console.log(result)
+        alert("Complaint Registered Successfully.")
+        navigate("/MyComplaints")
+      })
+      .catch(err => console.log(err))
   };
 
   return (

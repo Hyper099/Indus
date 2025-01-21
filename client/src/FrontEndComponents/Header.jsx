@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import axios from "axios";
 import "../styles/navbar.css";
 
 const Header = () => {
@@ -56,7 +56,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/MyComplaints" className="text-white me-3">
               &#9888; My Complaints
             </Nav.Link>
-            <Nav.Link as={Link} to="/Support" className="text-white me-3">
+            <Nav.Link as={Link} to="/Contact" className="text-white me-3">
               &#10067; Help and Support
             </Nav.Link>
             {user ? (
