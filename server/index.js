@@ -1,11 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const { auth, SECRET_KEY } = require("./auth.jsx");
+const { auth, SECRET_KEY } = require("./auth.js");
 const jwt = require("jsonwebtoken");
-const UserModel = require("./Models/Users");
-const AdminModel = require("./Models/AdminModel");
-const ComplaintModel = require("./Models/Complaints");
+const UserModel = require("./Models/Users.js");
+const AdminModel = require("./Models/AdminModel.js");
+const ComplaintModel = require("./Models/Complaints.js");
 
 // Middleware setup
 const app = express();
