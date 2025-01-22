@@ -96,6 +96,7 @@ app.get('/home', auth, async (req, res) => {
     res.status(500).json({ message: "An error occurred on the server", error: err });
   }
 });
+//getting the complaints of a particular user
 
 app.get('/complaints', async (req, res) => {
   try {
@@ -110,5 +111,5 @@ app.get('/complaints', async (req, res) => {
 // Start the server
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  console.log("Server is running on port 3001}");
+}); 
