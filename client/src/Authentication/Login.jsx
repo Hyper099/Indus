@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const handleRegister = (e) => {
     e.preventDefault();
 

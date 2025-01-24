@@ -7,7 +7,7 @@ function ComplaintForm() {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [urgency, setUrgency] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [setPhoto] = useState(null);
   const [contact, setContact] = useState({ name: '', email: '', phone: '' });
   const navigate = useNavigate();
 
