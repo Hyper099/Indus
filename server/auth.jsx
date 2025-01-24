@@ -15,6 +15,8 @@ const auth = (req, res, next) => {
          return res.status(401).json({ message: "Invalid token" });
       }
       req.userId = decoded.id;
+      req.userEmail = decoded.email; // Add email to request object
+      req.userName = decoded.name;
       next();
    });
 };

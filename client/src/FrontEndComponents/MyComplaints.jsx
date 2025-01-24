@@ -2,21 +2,37 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Alert, Container, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const MyComplaints = () => {
    const [complaints, setComplaints] = useState([]);
+   const navigate = useNavigate();
 
    useEffect(() => {
-      // Replace with your backend API endpoint to fetch complaints
-      axios
-         .get("http://localhost:3001/complaints")
-         .then((response) => {
+      const fetchComplaints = async () => {
+         const token = localStorage.getItem("token");
+
+         // Check if token exists
+         if (!token) {
+            alert("Please log in to view your complaints.");
+            navigate("/login"); // Redirect to login page
+            return;
+         }
+
+         try {
+            const response = await axios.get("http://localhost:3001/complaints", {
+               headers: {
+                  token: `${token}`,
+               },
+            });
             setComplaints(response.data);
-         })
-         .catch((error) => {
+         } catch (error) {
             console.error("Error fetching complaints:", error);
-         });
-   }, []);
+         }
+      };
+
+      fetchComplaints();
+   }, [navigate]);
 
    return (
       <Container className="py-5">
@@ -58,7 +74,5 @@ const MyComplaints = () => {
       </Container>
    );
 };
-
-
 
 export default MyComplaints;

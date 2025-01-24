@@ -43,8 +43,13 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
-    res.json({ message: "Success", token, user });
+    const token = jwt.sign({
+      id: user._id,
+      email: user.email,
+      name: user.name
+    }, SECRET_KEY, { expiresIn: "1h" }
+    );
+    res.json({ message: "Success", token });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
@@ -97,9 +102,11 @@ app.get('/home', auth, async (req, res) => {
   }
 });
 
-app.get('/complaints', async (req, res) => {
+app.get('/complaints', auth, async (req, res) => {
   try {
-    const complaints = await ComplaintModel.find();
+    const complaints = await ComplaintModel.find({
+      "contact.email": req.userEmail
+    });
     res.json(complaints);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch complaints", error: err });

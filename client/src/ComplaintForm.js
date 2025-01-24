@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
@@ -11,15 +11,48 @@ function ComplaintForm() {
   const [contact, setContact] = useState({ name: '', email: '', phone: '' });
   const navigate = useNavigate();
 
+  // Check token and fetch user details
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const token = localStorage.getItem("token");
+
+      // Redirect to login if no token is found
+      if (!token) {
+        alert("Please log in to file a complaint.");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:3001/home", {
+          headers: {
+            token: `${token}`,
+          },
+        });
+        const { name, email } = response.data;
+        setContact((prev) => ({ ...prev, name, email })); // Pre-fill name and email
+      } catch (err) {
+        console.error("Error fetching user details:", err);
+      }
+    };
+
+    fetchUserDetails();
+  }, [navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/ComplaintForm', { category, description, urgency, contact })
+    axios.post('http://localhost:3001/ComplaintForm', {
+      category,
+      description,
+      urgency,
+      contact
+    })
       .then(result => {
-        console.log(result)
-        alert("Complaint Registered Successfully.")
-        navigate("/MyComplaints")
+        console.log(result);
+        alert("Complaint Registered Successfully.");
+        navigate("/MyComplaints");
       })
-      .catch(err => console.log(err))
+      .catch(err => console.error("Error submitting complaint:", err));
   };
 
   return (
@@ -83,22 +116,20 @@ function ComplaintForm() {
               />
             </Form.Group>
 
-            {/* Contact Details */}
+            {/* Contact Details (Disabled Fields) */}
             <Form.Group controlId="formContact" className="mb-3">
               <Form.Label>Contact Details</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Name"
-                onChange={(e) => setContact({ ...contact, name: e.target.value })}
                 value={contact.name}
-                required
+                disabled
               />
               <Form.Control
                 type="email"
                 placeholder="Email"
-                onChange={(e) => setContact({ ...contact, email: e.target.value })}
                 value={contact.email}
-                required
+                disabled
               />
               <Form.Control
                 type="text"
