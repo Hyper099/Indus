@@ -1,11 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const { auth, SECRET_KEY } = require("./auth.jsx");
+const { auth, SECRET_KEY } = require("./auth.js");
 const jwt = require("jsonwebtoken");
-const UserModel = require("./Models/Users");
-const AdminModel = require("./Models/AdminModel");
-const ComplaintModel = require("./Models/Complaints");
+const UserModel = require("./Models/Users.js");
+const AdminModel = require("./Models/AdminModel.js");
+const ComplaintModel = require("./Models/Complaints.js");
 
 // Middleware setup
 const app = express();
@@ -101,6 +101,7 @@ app.get('/home', auth, async (req, res) => {
     res.status(500).json({ message: "An error occurred on the server", error: err });
   }
 });
+//getting the complaints of a particular user
 
 app.get('/complaints', auth, async (req, res) => {
   try {
@@ -117,5 +118,5 @@ app.get('/complaints', auth, async (req, res) => {
 // Start the server
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  console.log("Server is running on port 3001}");
+}); 
