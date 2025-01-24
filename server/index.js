@@ -49,7 +49,7 @@ app.post('/login', async (req, res) => {
       name: user.name
     }, SECRET_KEY, { expiresIn: "1h" }
     );
-    res.json({ message: "Success", token });
+    res.json({ message: "Success", user,token });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
