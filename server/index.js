@@ -115,6 +115,32 @@ app.get('/complaints', auth, async (req, res) => {
   }
 });
 
+//deleting a complaint from user side
+app.delete('/complaints/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  const userEmail = req.userEmail;
+
+  try {
+    // Find the complaint
+    const complaint = await ComplaintModel.findOne({ _id: id });
+
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    // Ensure the user has permission to delete the complaint
+    if (complaint.contact.email !== userEmail) {
+      return res.status(403).json({ message: "You do not have permission to delete this complaint" });
+    }
+
+    // Delete the complaint
+    await ComplaintModel.deleteOne({ _id: id });
+    res.json({ message: "Complaint deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete complaint", error: err });
+  }
+});
+
 
 // Start the server
 const PORT = 3001;

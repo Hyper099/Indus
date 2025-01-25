@@ -226,10 +226,55 @@ function ComplaintForm() {
                 required
               >
                 <option>Choose an area...</option>
-                <option value="Shahpur">Shahpur</option>
-                <option value="Dariapur">Dariapur</option>
-                <option value="Jamalpur">Jamalpur</option>
-                <option value="Khadia">Khadia</option>
+                <option value="Amraiwadi">Amraiwadi</option>
+<option value="Asarwa">Asarwa</option>
+<option value="Bapunagar">Bapunagar</option>
+<option value="Behrampura">Behrampura</option>
+<option value="Bhaipura-Hatkeshwar">Bhaipura-Hatkeshwar</option>
+<option value="Bodakdev">Bodakdev</option>
+<option value="Chandkheda-Motera">Chandkheda-Motera</option>
+<option value="Chandlodiya">Chandlodiya</option>
+<option value="Danilimda">Danilimda</option>
+<option value="Dariapur">Dariapur</option>
+<option value="Ghatlodiya">Ghatlodiya</option>
+<option value="Gomtipur">Gomtipur</option>
+<option value="Gota">Gota</option>
+<option value="Indrapuri">Indrapuri</option>
+<option value="Isanpur">Isanpur</option>
+<option value="Jamalpur">Jamalpur</option>
+<option value="Jodhpur">Jodhpur</option>
+<option value="Khadia">Khadia</option>
+<option value="Khokhra">Khokhra</option>
+<option value="Kubernagar">Kubernagar</option>
+<option value="Lambha">Lambha</option>
+<option value="Maktampura">Maktampura</option>
+<option value="Maninagar">Maninagar</option>
+<option value="Naroda">Naroda</option>
+<option value="Naranpura">Naranpura</option>
+<option value="Navrangpura">Navrangpura</option>
+<option value="Nava Vadaj">Nava Vadaj</option>
+<option value="Nikol">Nikol</option>
+<option value="Odhav">Odhav</option>
+<option value="Paldi">Paldi</option>
+<option value="Ramol-Hathijan">Ramol-Hathijan</option>
+<option value="Ranip">Ranip</option>
+<option value="Sabarmati">Sabarmati</option>
+<option value="Saijpur Bogha">Saijpur Bogha</option>
+<option value="Sarkhej">Sarkhej</option>
+<option value="Saraspur">Saraspur</option>
+<option value="Sardarnagar">Sardarnagar</option>
+<option value="Shahibaug">Shahibaug</option>
+<option value="Shahpur">Shahpur</option>
+<option value="S. P. Stadium">S. P. Stadium</option>
+<option value="Thakkar Bapanagar">Thakkar Bapanagar</option>
+<option value="Thaltej">Thaltej</option>
+<option value="Vasna">Vasna</option>
+<option value="Vastral">Vastral</option>
+<option value="Vastrapur">Vastrapur</option>
+<option value="Vejalpur">Vejalpur</option>
+<option value="Viratnagar">Viratnagar</option>
+<option value="Vatva">Vatva</option>
+
               </Form.Control>
             </Form.Group>
 
