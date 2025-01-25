@@ -79,6 +79,7 @@ app.post('/adminlogin', async (req, res) => {
 
 // Submit a complaint form
 app.post('/ComplaintForm', async (req, res) => {
+  console.log("Received Data:", req.body);
   try {
     const complaint = await ComplaintModel.create(req.body);
     res.json(complaint);

@@ -10,6 +10,11 @@ const ComplaintSchema = new mongoose.Schema({
     email: String,
     phone: String,
   },
+  address: String,
+  landmark: String,
+  preferredContact: String,
+  area:String,
+
   status: {
     type: String,
     default: "pending",

@@ -80,7 +80,7 @@ const MyComplaints = () => {
                   borderTopRightRadius: "5px"
                 }}>
                   <div style={{ width: "100%" }}>
-                    <span>{complaint.description}</span> - {complaint.contact.email}
+                    <span>{complaint.category}</span> - {complaint.contact.email}
                   </div>
                 </Accordion.Header>
                 
@@ -93,6 +93,9 @@ const MyComplaints = () => {
                 }}>
                   <p><strong>Name:</strong> {complaint.contact.name}</p>
                   <p><strong>Phone:</strong> {complaint.contact.phone}</p>
+                  <p><strong>Ddescription:</strong> {complaint.description}</p>
+                  <p><strong>Address:</strong> {complaint.address}</p>
+                  <p><strong>Area:</strong> {complaint.area}</p>
                   <p><strong>Status:</strong> {complaint.status}</p>
                   <p><strong>Date Submitted:</strong> {new Date(complaint.createdAt).toLocaleString()}</p>
                   <p><strong>Urgency:</strong> {complaint.urgency}</p>
