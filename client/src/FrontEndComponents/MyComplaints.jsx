@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Accordion, Alert, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import RegisterForm from "../Authentication/Register";
+import bg1 from '../Graphics/LandingPageBg.jpg'
 
 const MyComplaints = () => {
    const [complaints, setComplaints] = useState([]);
