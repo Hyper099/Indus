@@ -89,6 +89,16 @@ function ComplaintForm() {
     >
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
+        <div style={
+          {
+            backgroundColor: "#e3e9f1",
+         padding: "20px ",
+         textAlign: "center",
+          }
+        }>
+      <h3>Welcome to the Public Complaint Management System</h3>
+      <p>We are committed to resolving your grievances efficiently. Please register your complaints below.</p>
+   </div>
           <h3
             className="text-center mb-4"
             style={{
