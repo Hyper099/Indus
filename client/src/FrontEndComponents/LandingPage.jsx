@@ -2,6 +2,7 @@ import React from "react";
 import { Carousel, Col, Container, Row } from "react-bootstrap";
 import RegisterForm from "../Authentication/Register";
 import bg1 from '../Graphics/LandingPageBg.jpg'
+import AboutUs from "./About";
 function LandingPage() {
   return (
     <div style={{ fontFamily: "Arial, sans-serif", color: "#333" }}>
@@ -119,6 +120,7 @@ function LandingPage() {
           </Carousel>
         </Container>
       </div>
+      <AboutUs/>
     </div>
   );
 }
