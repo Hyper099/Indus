@@ -1,4 +1,4 @@
-import MainContent from './FrontEndComponents/MainContent';
+
 import './styles/App.css';
 import LandingPage from './FrontEndComponents/LandingPage';
 

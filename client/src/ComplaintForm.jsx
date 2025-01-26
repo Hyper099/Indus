@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, ProgressBar, Row } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ComplaintForm() {
   const [category, setCategory] = useState('');
@@ -15,6 +15,8 @@ function ComplaintForm() {
   const [area, setArea] = useState('');
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -40,7 +42,14 @@ function ComplaintForm() {
     };
 
     fetchUserDetails();
+
+
+    
   }, [navigate]);
+ 
+
+
+  // Rest of the code...
 
   useEffect(() => {
     const filledFields = [category, description, urgency, address, area, landmark, preferredContact].filter(Boolean).length;
@@ -66,7 +75,7 @@ function ComplaintForm() {
       })
       .catch(err => console.error("Error submitting complaint:", err));
   };
-
+  
   return (
     <Container
       fluid
@@ -118,7 +127,7 @@ function ComplaintForm() {
                 <option value="Road Repair">Road Repair</option>
                 <option value="Garbage Collection">Garbage Collection</option>
                 <option value="Water Supply">Water Supply</option>
-                <option value="Pollution (Air, Water, Noise)">Pollution (Air, Water, Noise)</option>
+                <option value="Pollution (Air, Water, Noise)" selected={category === 'pollution'}>Pollution (Air, Water, Noise)</option>
                 <option value="Stray Animals">Stray Animals</option>
                 <option value="Roads and Traffic">Roads and Traffic</option>
                 <option value="Drainage and Water">Drainage and Water</option>
