@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client'; // Import 'react-dom/client' for React 18
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'; // Import React Router components

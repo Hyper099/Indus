@@ -1,10 +1,12 @@
-import MainContent from './FrontEndComponents/MainContent';
+
 import './styles/App.css';
+import LandingPage from './FrontEndComponents/LandingPage';
+
 
 function App() {
    return (
       <div>
-         <MainContent />
+         <LandingPage/>
       </div>
    );
 }

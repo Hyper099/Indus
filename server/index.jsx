@@ -49,7 +49,7 @@ app.post('/login', async (req, res) => {
       name: user.name
     }, SECRET_KEY, { expiresIn: "1h" }
     );
-    res.json({ message: "Success", token });
+    res.json({ message: "Success", user,token });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
@@ -79,6 +79,7 @@ app.post('/adminlogin', async (req, res) => {
 
 // Submit a complaint form
 app.post('/ComplaintForm', async (req, res) => {
+  console.log("Received Data:", req.body);
   try {
     const complaint = await ComplaintModel.create(req.body);
     res.json(complaint);
@@ -110,6 +111,32 @@ app.get('/complaints', auth, async (req, res) => {
     res.json(complaints);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch complaints", error: err });
+  }
+});
+
+//deleting a complaint from user side
+app.delete('/complaints/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  const userEmail = req.userEmail;
+
+  try {
+    // Find the complaint
+    const complaint = await ComplaintModel.findOne({ _id: id });
+
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    // Ensure the user has permission to delete the complaint
+    if (complaint.contact.email !== userEmail) {
+      return res.status(403).json({ message: "You do not have permission to delete this complaint" });
+    }
+
+    // Delete the complaint
+    await ComplaintModel.deleteOne({ _id: id });
+    res.json({ message: "Complaint deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete complaint", error: err });
   }
 });
 

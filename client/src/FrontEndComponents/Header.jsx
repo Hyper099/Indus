@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import "../styles/navbar.css";
 
+
 const Header = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
@@ -48,16 +49,16 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center">
             <Nav.Link as={Link} to="/home" className="text-white me-3">
-              &#127968; Home
+            <i className="fa-regular fa-house"></i> Home
             </Nav.Link>
             <Nav.Link as={Link} to="/ComplaintForm" className="text-white me-3">
-              &#9998; Complaint Registration
+            <i className="fa-light fa-pen"></i> Complaint Registration
             </Nav.Link>
             <Nav.Link as={Link} to="/MyComplaints" className="text-white me-3">
-              &#9888; My Complaints
+            <i className="fa-regular fa-circle-exclamation"></i> My Complaints
             </Nav.Link>
             <Nav.Link as={Link} to="/Contact" className="text-white me-3">
-              &#10067; Help and Support
+            <i className="fa-regular fa-question"></i> Help and Support
             </Nav.Link>
             {user ? (
               <>
