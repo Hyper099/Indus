@@ -1,15 +1,15 @@
 import React from "react";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
-import img1 from '../Graphics/pollution.jpg';
-import img2 from '../Graphics/stayAnimals.jpg';
-import img3 from '../Graphics/RoadAndTraffic.jpg';
 import img4 from '../Graphics/Garbage.jpeg';
+import img9 from '../Graphics/others.jpg';
+import img1 from '../Graphics/pollution.jpg';
+import img3 from '../Graphics/RoadAndTraffic.jpg';
 import img5 from '../Graphics/Sewage.jpg';
+import img2 from '../Graphics/stayAnimals.jpg';
 import img6 from '../Graphics/Streetlight.jpg';
 import img7 from '../Graphics/Theft.jpg';
 import img8 from '../Graphics/waterBodies.jpg';
-import img9 from '../Graphics/others.jpg';
 
 const issueCategories = [
   {
@@ -22,49 +22,49 @@ const issueCategories = [
     title: "Stray Animals",
     image: img2,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=stray-animals",
+    formLink: "/ComplaintForm?category=stray-animals",
   },
   {
     title: "Road And Traffic",
     image: img3,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=roads",
+    formLink: "/ComplaintForm?category=roads",
   },
   {
     title: "Garbage Collection",
     image: img4,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=garbage",
+    formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Sewage And Drainage",
     image: img5,
     description: "Potholes, broken roads, or other road problems..",
-    formLink: "/register-complaint?category=garbage",
+    formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Streetlights",
     image: img6,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=garbage",
+    formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Theft",
     image: img7,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=garbage",
+    formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Contaminated Water Bodies",
     image: img8,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=garbage",
+    formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Other Issue",
     image: img9,
     description: "Potholes, broken roads, or other road problems.",
-    formLink: "/register-complaint?category=garbage",
+    formLink: "/ComplaintForm?category=garbage",
   },
 ];
 
