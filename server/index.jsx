@@ -101,7 +101,6 @@ app.get('/home', auth, async (req, res) => {
     res.status(500).json({ message: "An error occurred on the server", error: err });
   }
 });
-//getting the complaints of a particular user
 
 app.get('/complaints', auth, async (req, res) => {
   try {
