@@ -175,10 +175,10 @@ const ManageComplaints = () => {
                               required
                            >
                               <option value="">Select Status</option>
-                              <option value="pending">Pending</option>
-                              <option value="in-progress">In Progress</option>
-                              <option value="resolved">Resolved</option>
-                              <option value="rejected">Rejected</option>
+                              <option value="pending">pending</option>
+                              <option value="in-progress">in-progress</option>
+                              <option value="resolved">resolved</option>
+                              <option value="rejected">rejected</option>
                            </Form.Select>
                         </Form.Group>
 

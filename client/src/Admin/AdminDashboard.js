@@ -107,9 +107,9 @@ function AdminDashboard() {
 
    const complaintStats = {
       total: complaints.length,
-      resolved: complaints.filter((c) => c.status === "Resolved").length,
-      pending: complaints.filter((c) => c.status === "Pending").length,
-      escalated: complaints.filter((c) => c.status === "Escalated").length,
+      resolved: complaints.filter((c) => c.status === "resolved").length,
+      pending: complaints.filter((c) => c.status === "pending").length,
+      escalated: complaints.filter((c) => c.status === "escalated").length,
    };
 
    return (
