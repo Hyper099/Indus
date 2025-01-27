@@ -176,43 +176,52 @@ function AdminDashboard() {
                               <th>Description</th>
                               <th>Urgency</th>
                               <th>Status</th>
+                              <th>Date</th>
                               <th>Actions</th>
+                              
                            </tr>
                         </thead>
                         <tbody>
-                           {loading ? (
-                              <tr>
-                                 <td colSpan="6" className="text-center py-4">
-                                    Loading complaints...
-                                 </td>
-                              </tr>
-                           ) : complaints.length > 0 ? (
-                              complaints.map((complaint) => (
-                                 <tr key={complaint._id}>
-                                    <td><small className="text-muted">{complaint._id}</small></td>
-                                    <td>{complaint.category}</td>
-                                    <td>{complaint.description.substring(0, 100)}...</td>
-                                    <td>{getUrgencyBadge(complaint.urgency)}</td>
-                                    <td>{getStatusBadge(complaint.status)}</td>
-                                    <td>
-                                       <Button
-                                          variant="outline-primary"
-                                          size="sm"
-                                          onClick={() => handleViewComplaint(complaint)}
-                                       >
-                                          View / Update
-                                       </Button>
-                                    </td>
-                                 </tr>
-                              ))
-                           ) : (
-                              <tr>
-                                 <td colSpan="6" className="text-center py-4">
-                                    No complaints found.
-                                 </td>
-                              </tr>
-                           )}
-                        </tbody>
+   {loading ? (
+      <tr>
+         <td colSpan="6" className="text-center py-4">
+            Loading complaints...
+         </td>
+      </tr>
+   ) : complaints.length > 0 ? (
+      complaints
+         .slice(-6) // Get the last 6 complaints
+         .reverse() // Reverse the slice to show the latest first
+         .map((complaint) => (
+            <tr key={complaint._id}>
+               <td>
+                  <small className="text-muted">{complaint._id}</small>
+               </td>
+               <td>{complaint.category}</td>
+               <td>{complaint.description.substring(0, 100)}...</td>
+               <td>{getUrgencyBadge(complaint.urgency)}</td>
+               <td>{getStatusBadge(complaint.status)}</td>
+               <td>{complaint.createdAt}</td>
+               <td>
+                  <Button
+                     variant="outline-primary"
+                     size="sm"
+                     onClick={() => handleViewComplaint(complaint)}
+                  >
+                     View / Update
+                  </Button>
+               </td>
+            </tr>
+         ))
+   ) : (
+      <tr>
+         <td colSpan="6" className="text-center py-4">
+            No complaints found.
+         </td>
+      </tr>
+   )}
+</tbody>
+
                      </Table>
                   </Card.Body>
                </Card>

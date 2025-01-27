@@ -116,6 +116,7 @@ const ManageComplaints = () => {
                         <thead>
                            <tr>
                               <th>User</th>
+                              <th>Phone No</th>
                               <th>Area</th>
                               <th>Description</th>
                               <th>Status</th>
@@ -126,7 +127,8 @@ const ManageComplaints = () => {
                         <tbody>
                            {groupedComplaints[category].map((complaint) => (
                               <tr key={complaint._id}>
-                                 <td>{complaint.userId?.name || 'Anonymous'}</td>
+                                 <td>{complaint.contact.name || 'Anonymous'}</td>
+                                 <td>{complaint.contact.phone}</td>
                                  <td>{complaint.area}</td>
                                  <td>{complaint.description}</td>
                                  <td>{getStatusBadge(complaint.status)}</td>
