@@ -57,7 +57,7 @@ app.post('/login', async (req, res) => {
 
 app.post('/adminLogin', async (req, res) => {
   const { email, password } = req.body;
-
+  console.log("hi");
   try {
     const admin = await AdminModel.findOne({ email });
 
@@ -68,10 +68,14 @@ app.post('/adminLogin', async (req, res) => {
     if (admin.password !== password) {
       return res.status(401).json({ message: "Incorrect password" });
     }
-
-    const token = jwt.sign({ id: admin._id, role: "admin" }, SECRET_KEY, { expiresIn: "1h" });
-
+    console.log("hi4");
+    const token = jwt.sign({
+      id: admin._id,
+      role: "admin"
+    }, SECRET_KEY, { expiresIn: "1h" });
+    console.log("hi2");
     res.json({ message: "Success", token, admin: { name: admin.name, role: "admin" } });
+    console.log(token);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
@@ -111,14 +115,16 @@ app.get('/complaints', auth, async (req, res) => {
     // Check if the user is an admin
     if (req.isAdmin) {
       const complaints = await ComplaintModel.find(); // Admin gets all complaints
-      return res.json(complaints);
+      res.json(complaints);
+    }
+    else {
+      // Regular users get only their own complaints
+      const complaints = await ComplaintModel.find({
+        "contact.email": req.userEmail,
+      });
+      res.json(complaints);
     }
 
-    // Regular users get only their own complaints
-    const complaints = await ComplaintModel.find({
-      "contact.email": req.userEmail,
-    });
-    res.json(complaints);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch complaints", error: err });
   }

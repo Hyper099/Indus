@@ -10,13 +10,25 @@ function AdminDashboard() {
     const [emergencyMessage, setEmergencyMessage] = useState("");
     const [showEmergencyModal, setShowEmergencyModal] = useState(false);
 
+    const token = localStorage.getItem("token");
+
     // Fetch complaints data
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/complaints")
-            .then((response) => setComplaints(response.data))
-            .catch((error) => console.error("Error fetching complaints:", error));
-    }, []);
+        const fetchComplaints = async () => {
+            try {
+                const response = await axios.get("http://localhost:3001/complaints", {
+                    headers: {
+                        token,
+                    },
+                });
+                setComplaints(response.data);
+            } catch (error) {
+                console.error("Error fetching complaints:", error);
+            }
+        };
+
+        fetchComplaints();
+    }, [token]);
 
     // Open complaint modal
     const handleViewComplaint = (complaint) => {
@@ -25,33 +37,49 @@ function AdminDashboard() {
     };
 
     // Update complaint status
-    const handleUpdateStatus = () => {
+    const handleUpdateStatus = async () => {
         if (selectedComplaint) {
-            axios
-                .put(`http://localhost:3001/complaints/${selectedComplaint.id}`, { status: statusUpdate })
-                .then(() => {
-                    alert("Status updated successfully!");
-                    setShowModal(false);
-                    setComplaints((prev) =>
-                        prev.map((comp) =>
-                            comp.id === selectedComplaint.id ? { ...comp, status: statusUpdate } : comp
-                        )
-                    );
-                })
-                .catch((error) => console.error("Error updating status:", error));
+            try {
+                await axios.put(
+                    `http://localhost:3001/complaints/${selectedComplaint.id}`,
+                    { status: statusUpdate },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                alert("Status updated successfully!");
+                setShowModal(false);
+                setComplaints((prev) =>
+                    prev.map((comp) =>
+                        comp.id === selectedComplaint.id ? { ...comp, status: statusUpdate } : comp
+                    )
+                );
+            } catch (error) {
+                console.error("Error updating status:", error);
+            }
         }
     };
 
     // Send emergency message
-    const handleSendEmergencyMessage = () => {
-        axios
-            .post("http://localhost:3001/emergency", { message: emergencyMessage })
-            .then(() => {
-                alert("Emergency message sent!");
-                setShowEmergencyModal(false);
-                setEmergencyMessage("");
-            })
-            .catch((error) => console.error("Error sending emergency message:", error));
+    const handleSendEmergencyMessage = async () => {
+        try {
+            await axios.post(
+                "http://localhost:3001/emergency",
+                { message: emergencyMessage },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            alert("Emergency message sent!");
+            setShowEmergencyModal(false);
+            setEmergencyMessage("");
+        } catch (error) {
+            console.error("Error sending emergency message:", error);
+        }
     };
 
     return (

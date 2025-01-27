@@ -25,7 +25,7 @@ const Header = () => {
         });
         setUser(response.data);
       } catch {
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
         setUser(null);
       }
     };
@@ -49,16 +49,16 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center">
             <Nav.Link as={Link} to="/home" className="text-white me-3">
-            <i className="fa-regular fa-house"></i> Home
+              <i className="fa-regular fa-house"></i> Home
             </Nav.Link>
             <Nav.Link as={Link} to="/ComplaintForm" className="text-white me-3">
-            <i className="fa-light fa-pen"></i> Complaint Registration
+              <i className="fa-light fa-pen"></i> Complaint Registration
             </Nav.Link>
             <Nav.Link as={Link} to="/MyComplaints" className="text-white me-3">
-            <i className="fa-regular fa-circle-exclamation"></i> My Complaints
+              <i className="fa-regular fa-circle-exclamation"></i> My Complaints
             </Nav.Link>
             <Nav.Link as={Link} to="/Contact" className="text-white me-3">
-            <i className="fa-regular fa-question"></i> Help and Support
+              <i className="fa-regular fa-question"></i> Help and Support
             </Nav.Link>
             {user ? (
               <>

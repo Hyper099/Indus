@@ -4,88 +4,128 @@ import React from 'react';
 import ReactDOM from 'react-dom/client'; // Import 'react-dom/client' for React 18
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'; // Import React Router components
 import AdminDashboard from './Admin/AdminDashboard';
+// import ManageComplaints from './Admin/ManageComplaints'; // Example admin route
+// import ManageUsers from './Admin/ManageUsers'; // Example admin route
 import App from './App';
-import { AuthProvider } from './AuthContext'; // Import AuthProvider
+import { AuthProvider, useAuth } from './AuthContext'; // Import AuthProvider and useAuth
 import Login from './Authentication/Login';
 import RegisterForm from './Authentication/Register';
 import ComplaintForm from './ComplaintForm';
+import AdminHeader from "./Admin/AdminHeader"; // Import admin Header
 import Contact from './FrontEndComponents/Contact';
-import Header from "./FrontEndComponents/Header"; // Import your Header component
+import Header from "./FrontEndComponents/Header"; // Import user Header
 import MyComplaints from './FrontEndComponents/MyComplaints';
 import Home from './Home';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
 import './styles/index.css';
 
 // Create a root container for React 18
 const root = ReactDOM.createRoot(document.getElementById('root')); // Ensure the ID matches the one in your index.html
 
+const AppRoutes = () => {
+  const { user } = useAuth(); // Access user from AuthContext
+
+  const renderHeader = () => {
+    if (user && user.role === 'admin') {
+      return <AdminHeader />;
+    }
+    return <Header />;
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              {renderHeader()}
+              <App />
+            </>
+          }
+        />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/ComplaintForm"
+          element={
+            <>
+              {renderHeader()}
+              <ComplaintForm />
+            </>
+          }
+        />
+        <Route
+          path="/MyComplaints"
+          element={
+            <>
+              {renderHeader()}
+              <MyComplaints />
+            </>
+          }
+        />
+        <Route
+          path="/Contact"
+          element={
+            <>
+              {renderHeader()}
+              <Contact />
+            </>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <>
+                {renderHeader()}
+                <Home />
+              </>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/AdminDashboard"
+          element={
+            <ProtectedRoute>
+              <>
+                <AdminHeader />
+                <AdminDashboard />
+              </>
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route
+          path="/AdminDashboard/complaints"
+          element={
+            <ProtectedRoute>
+              <>
+                <AdminHeader />
+                <ManageComplaints />
+              </>
+            </ProtectedRoute>
+          }
+        /> */}
+        {/* <Route
+          path="/AdminDashboard/users"
+          element={
+            <ProtectedRoute>
+              <>
+                <AdminHeader />
+                <ManageUsers />
+              </>
+            </ProtectedRoute>
+          }
+        /> */}
+      </Routes>
+    </Router>
+  );
+};
+
 root.render(
   <React.StrictMode>
     <AuthProvider> {/* Wrap the entire app with AuthProvider */}
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Header /> {/* Header renders dynamically */}
-                <App />
-              </>
-            }
-          />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/ComplaintForm"
-            element={
-              <>
-                <Header />
-                <ComplaintForm />
-              </>
-            }
-          />
-          <Route
-            path="/MyComplaints"
-            element={
-              <>
-                <Header />
-                <MyComplaints />
-              </>
-            }
-          />
-          <Route
-            path="/Contact"
-            element={
-              <>
-                <Header />
-                <Contact />
-              </>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <>
-                  <Header />
-                  <Home />
-                </>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/AdminDashboard"
-            element={
-              <ProtectedRoute>
-                <>
-                  <Header />
-                  <AdminDashboard />
-                </>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
+      <AppRoutes />
     </AuthProvider>
   </React.StrictMode>
 );
