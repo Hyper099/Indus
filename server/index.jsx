@@ -124,6 +124,11 @@ app.get("/complaints", auth, async (req, res) => {
   }
 });
 
+
+
+
+
+
 // **Update complaint status (Admin only)**
 app.put("/complaints/:id", auth, async (req, res) => {
   if (!req.isAdmin) return res.status(403).json({ message: "Only admins can update complaint statuses" });
@@ -134,6 +139,7 @@ app.put("/complaints/:id", auth, async (req, res) => {
       { status: req.body.status },
       { new: true }
     );
+    console.log(updatedComplaint)
     if (!updatedComplaint) return res.status(404).json({ message: "Complaint not found" });
 
     res.json({ message: "Status updated successfully", updatedComplaint });

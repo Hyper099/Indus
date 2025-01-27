@@ -4,6 +4,7 @@ import { Alert, Badge, Button, Card, Container, Form, Modal, Table } from 'react
 
 const ManageComplaints = () => {
    const [complaints, setComplaints] = useState([]);
+   const [groupedComplaints, setGroupedComplaints] = useState({});
    const [showModal, setShowModal] = useState(false);
    const [selectedComplaint, setSelectedComplaint] = useState(null);
    const [alert, setAlert] = useState(null);
@@ -19,13 +20,24 @@ const ManageComplaints = () => {
    const fetchComplaints = async () => {
       try {
          const token = localStorage.getItem('token');
-         const response = await axios.get('http://localhost:3001/admin/complaints', {
+         const response = await axios.get('http://localhost:3001/complaints', {
             headers: { token }
          });
          setComplaints(response.data);
+         groupComplaintsByCategory(response.data);
       } catch (error) {
          showAlert('Error fetching complaints', 'danger');
       }
+   };
+
+   const groupComplaintsByCategory = (complaints) => {
+      const grouped = complaints.reduce((acc, complaint) => {
+         const category = complaint.category || 'Uncategorized';
+         if (!acc[category]) acc[category] = [];
+         acc[category].push(complaint);
+         return acc;
+      }, {});
+      setGroupedComplaints(grouped);
    };
 
    const handleInputChange = (e) => {
@@ -44,7 +56,8 @@ const ManageComplaints = () => {
       e.preventDefault();
       try {
          const token = localStorage.getItem('token');
-         await axios.put(`http://localhost:3001/admin/complaints/${selectedComplaint._id}`, formData, {
+         console.log(selectedComplaint._id)
+         await axios.put(`http://localhost:3001/complaints/${selectedComplaint._id}`, formData, {
             headers: { token }
          });
          showAlert('Complaint updated successfully', 'success');
@@ -96,34 +109,39 @@ const ManageComplaints = () => {
                   </Alert>
                )}
 
-               <Table striped bordered hover responsive>
-                  <thead>
-                     <tr>
-                        <th>User</th>
-                        <th>Subject</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {complaints.map((complaint) => (
-                        <tr key={complaint._id}>
-                           <td>{complaint.userId?.name || 'Anonymous'}</td>
-                           <td>{complaint.subject}</td>
-                           <td>{complaint.description.substring(0, 100)}...</td>
-                           <td>{getStatusBadge(complaint.status)}</td>
-                           <td>{new Date(complaint.createdAt).toLocaleDateString()}</td>
-                           <td>
-                              <Button variant="primary" size="sm" onClick={() => handleView(complaint)}>
-                                 View & Update
-                              </Button>
-                           </td>
-                        </tr>
-                     ))}
-                  </tbody>
-               </Table>
+               {Object.keys(groupedComplaints).map((category) => (
+                  <div key={category} className="mb-4">
+                     <h4 className="text-primary mb-3">{category}</h4>
+                     <Table striped bordered hover responsive>
+                        <thead>
+                           <tr>
+                              <th>User</th>
+                              <th>Area</th>
+                              <th>Description</th>
+                              <th>Status</th>
+                              <th>Date</th>
+                              <th>Actions</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {groupedComplaints[category].map((complaint) => (
+                              <tr key={complaint._id}>
+                                 <td>{complaint.userId?.name || 'Anonymous'}</td>
+                                 <td>{complaint.area}</td>
+                                 <td>{complaint.description}</td>
+                                 <td>{getStatusBadge(complaint.status)}</td>
+                                 <td>{new Date(complaint.createdAt).toLocaleDateString()}</td>
+                                 <td>
+                                    <Button variant="primary" size="sm" onClick={() => handleView(complaint)}>
+                                       View & Update
+                                    </Button>
+                                 </td>
+                              </tr>
+                           ))}
+                        </tbody>
+                     </Table>
+                  </div>
+               ))}
             </Card.Body>
          </Card>
 
