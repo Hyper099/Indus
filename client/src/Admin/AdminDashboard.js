@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
+import { Badge, Button, Card, Container, Form, Modal, Table } from "react-bootstrap";
 
 function AdminDashboard() {
    const [complaints, setComplaints] = useState([]);
@@ -9,171 +9,219 @@ function AdminDashboard() {
    const [statusUpdate, setStatusUpdate] = useState("");
    const [emergencyMessage, setEmergencyMessage] = useState("");
    const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+   const [loading, setLoading] = useState(true);
 
    const token = localStorage.getItem("token");
 
-   // Fetch complaints data
    useEffect(() => {
-      const fetchComplaints = async () => {
-         try {
-            const response = await axios.get("http://localhost:3001/complaints", {
-               headers: {
-                  token
-               },
-            });
-            setComplaints(response.data);
-         } catch (error) {
-            console.error("Error fetching complaints:", error);
-         }
-      };
-
       fetchComplaints();
    }, [token]);
 
-   // Open complaint modal
+   const fetchComplaints = async () => {
+      try {
+         setLoading(true);
+         const response = await axios.get("http://localhost:3001/complaints", {
+            headers: { token }
+         });
+         setComplaints(response.data);
+      } catch (error) {
+         console.error("Error fetching complaints:", error);
+      } finally {
+         setLoading(false);
+      }
+   };
+
    const handleViewComplaint = (complaint) => {
       setSelectedComplaint(complaint);
+      setStatusUpdate(complaint.status);
       setShowModal(true);
    };
 
-   // Update complaint status
    const handleUpdateStatus = async () => {
       if (!statusUpdate) {
          alert("Please select a status before updating.");
          return;
       }
 
-      if (selectedComplaint) {
-         try {
-            await axios.put(
-               `http://localhost:3001/complaints/${selectedComplaint._id}`,
-               { status: statusUpdate },
-               {
-                  headers: {
-                     token,
-                  },
-               }
-            );
-            alert("Status updated successfully!");
-            setShowModal(false);
-            setComplaints((prev) =>
-               prev.map((comp) =>
-                  comp._id === selectedComplaint._id ? { ...comp, status: statusUpdate } : comp
-               )
-            );
-         } catch (error) {
-            console.error("Error updating status:", error);
-         }
+      try {
+         await axios.put(
+            `http://localhost:3001/complaints/${selectedComplaint._id}`,
+            { status: statusUpdate },
+            { headers: { token } }
+         );
+
+         setComplaints((prev) =>
+            prev.map((comp) =>
+               comp._id === selectedComplaint._id ? { ...comp, status: statusUpdate } : comp
+            )
+         );
+
+         setShowModal(false);
+         alert("Status updated successfully!");
+      } catch (error) {
+         console.error("Error updating status:", error);
+         alert("Failed to update status. Please try again.");
       }
    };
 
-   // Send emergency message
    const handleSendEmergencyMessage = async () => {
+      if (!emergencyMessage.trim()) {
+         alert("Please enter an emergency message.");
+         return;
+      }
+
       try {
          await axios.post(
             "http://localhost:3001/emergency",
             { message: emergencyMessage },
-            {
-               headers: {
-                  token,
-               },
-            }
+            { headers: { token } }
          );
-         alert("Emergency message sent!");
+
          setShowEmergencyModal(false);
          setEmergencyMessage("");
+         alert("Emergency message sent successfully!");
       } catch (error) {
          console.error("Error sending emergency message:", error);
+         alert("Failed to send emergency message. Please try again.");
       }
    };
 
+   const getStatusBadge = (status) => {
+      const variants = {
+         "Pending": "warning",
+         "In Progress": "info",
+         "Resolved": "success",
+         "Escalated": "danger"
+      };
+      return <Badge bg={variants[status] || "secondary"}>{status}</Badge>;
+   };
+
+   const getUrgencyBadge = (urgency) => {
+      const variants = {
+         "High": "danger",
+         "Medium": "warning",
+         "Low": "info"
+      };
+      return <Badge bg={variants[urgency] || "secondary"}>{urgency}</Badge>;
+   };
+
    return (
-      <Container className="mt-5">
-         <Row className="mb-3">
-            <Col>
-               <h2>Admin Dashboard</h2>
-               <Button variant="danger" onClick={() => setShowEmergencyModal(true)}>
-                  Issue Emergency Warning
-               </Button>
-            </Col>
-         </Row>
+      <Container fluid className="py-4 px-4">
+         <Card className="shadow-sm mb-4">
+            <Card.Body>
+               <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h2 className="mb-0">Admin Dashboard</h2>
+                  <Button
+                     variant="danger"
+                     onClick={() => setShowEmergencyModal(true)}
+                     className="d-flex align-items-center"
+                  >
+                     <i className="fas fa-exclamation-triangle me-2"></i>
+                     Issue Emergency Warning
+                  </Button>
+               </div>
 
-         <Row>
-            <Col>
-               <Table striped bordered hover>
-                  <thead>
-                     <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Urgency</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {complaints.length > 0 ? (
-                        complaints.map((complaint) => (
-                           <tr key={complaint._id}>
-                              <td>{complaint._id}</td>
-                              <td>{complaint.category}</td>
-                              <td>{complaint.description}</td>
-                              <td>{complaint.urgency}</td>
-                              <td>{complaint.status}</td>
-                              <td>
-                                 <Button
-                                    variant="primary"
-                                    size="sm"
-                                    onClick={() => handleViewComplaint(complaint)}
-                                 >
-                                    View / Update
-                                 </Button>
-                              </td>
+               <Card className="border-0 shadow-sm">
+                  <Card.Header className="bg-white">
+                     <h5 className="mb-0">Complaints Management</h5>
+                  </Card.Header>
+                  <Card.Body>
+                     <Table responsive hover className="align-middle mb-0">
+                        <thead className="bg-light">
+                           <tr>
+                              <th>ID</th>
+                              <th>Category</th>
+                              <th>Description</th>
+                              <th>Urgency</th>
+                              <th>Status</th>
+                              <th>Actions</th>
                            </tr>
-                        ))
-                     ) : (
-                        <tr>
-                           <td colSpan="6" className="text-center">
-                              No complaints found.
-                           </td>
-                        </tr>
-                     )}
-                  </tbody>
-               </Table>
-            </Col>
-         </Row>
+                        </thead>
+                        <tbody>
+                           {loading ? (
+                              <tr>
+                                 <td colSpan="6" className="text-center py-4">
+                                    Loading complaints...
+                                 </td>
+                              </tr>
+                           ) : complaints.length > 0 ? (
+                              complaints.map((complaint) => (
+                                 <tr key={complaint._id}>
+                                    <td><small className="text-muted">{complaint._id}</small></td>
+                                    <td>{complaint.category}</td>
+                                    <td>{complaint.description.substring(0, 100)}...</td>
+                                    <td>{getUrgencyBadge(complaint.urgency)}</td>
+                                    <td>{getStatusBadge(complaint.status)}</td>
+                                    <td>
+                                       <Button
+                                          variant="outline-primary"
+                                          size="sm"
+                                          onClick={() => handleViewComplaint(complaint)}
+                                       >
+                                          View / Update
+                                       </Button>
+                                    </td>
+                                 </tr>
+                              ))
+                           ) : (
+                              <tr>
+                                 <td colSpan="6" className="text-center py-4">
+                                    No complaints found.
+                                 </td>
+                              </tr>
+                           )}
+                        </tbody>
+                     </Table>
+                  </Card.Body>
+               </Card>
+            </Card.Body>
+         </Card>
 
-         {/* Complaint Modal */}
          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="bg-light">
                <Modal.Title>Complaint Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                {selectedComplaint && (
-                  <>
-                     <p><strong>ID:</strong> {selectedComplaint._id}</p>
-                     <p><strong>Category:</strong> {selectedComplaint.category}</p>
-                     <p><strong>Description:</strong> {selectedComplaint.description}</p>
-                     <p><strong>Urgency:</strong> {selectedComplaint.urgency}</p>
-                     <p><strong>Status:</strong> {selectedComplaint.status}</p>
-                     <Form.Group className="mt-3">
+                  <div className="px-2">
+                     <div className="mb-4">
+                        <small className="text-muted d-block mb-2">Complaint ID</small>
+                        <p className="mb-0">{selectedComplaint._id}</p>
+                     </div>
+                     <div className="mb-4">
+                        <small className="text-muted d-block mb-2">Category</small>
+                        <p className="mb-0">{selectedComplaint.category}</p>
+                     </div>
+                     <div className="mb-4">
+                        <small className="text-muted d-block mb-2">Description</small>
+                        <p className="mb-0">{selectedComplaint.description}</p>
+                     </div>
+                     <div className="mb-4">
+                        <small className="text-muted d-block mb-2">Urgency</small>
+                        <p className="mb-0">{getUrgencyBadge(selectedComplaint.urgency)}</p>
+                     </div>
+                     <div className="mb-4">
+                        <small className="text-muted d-block mb-2">Current Status</small>
+                        <p className="mb-0">{getStatusBadge(selectedComplaint.status)}</p>
+                     </div>
+                     <Form.Group>
                         <Form.Label>Update Status</Form.Label>
-                        <Form.Control
-                           as="select"
+                        <Form.Select
                            value={statusUpdate}
                            onChange={(e) => setStatusUpdate(e.target.value)}
+                           className="form-select-lg"
                         >
                            <option value="">Select Status</option>
                            <option value="Pending">Pending</option>
                            <option value="In Progress">In Progress</option>
                            <option value="Resolved">Resolved</option>
                            <option value="Escalated">Escalated</option>
-                        </Form.Control>
+                        </Form.Select>
                      </Form.Group>
-                  </>
+                  </div>
                )}
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className="bg-light">
                <Button variant="secondary" onClick={() => setShowModal(false)}>
                   Close
                </Button>
@@ -183,20 +231,23 @@ function AdminDashboard() {
             </Modal.Footer>
          </Modal>
 
-         {/* Emergency Modal */}
          <Modal show={showEmergencyModal} onHide={() => setShowEmergencyModal(false)}>
-            <Modal.Header closeButton>
-               <Modal.Title>Issue Emergency Warning</Modal.Title>
+            <Modal.Header closeButton className="bg-danger text-white">
+               <Modal.Title>
+                  <i className="fas fa-exclamation-triangle me-2"></i>
+                  Issue Emergency Warning
+               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                <Form.Group>
                   <Form.Label>Emergency Message</Form.Label>
                   <Form.Control
                      as="textarea"
-                     rows={3}
+                     rows={4}
                      value={emergencyMessage}
                      onChange={(e) => setEmergencyMessage(e.target.value)}
                      placeholder="Type your emergency message here..."
+                     className="form-control-lg"
                   />
                </Form.Group>
             </Modal.Body>
@@ -205,7 +256,7 @@ function AdminDashboard() {
                   Cancel
                </Button>
                <Button variant="danger" onClick={handleSendEmergencyMessage}>
-                  Send Message
+                  Send Emergency Message
                </Button>
             </Modal.Footer>
          </Modal>
