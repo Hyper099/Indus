@@ -18,7 +18,7 @@ function AdminDashboard() {
             try {
                 const response = await axios.get("http://localhost:3001/complaints", {
                     headers: {
-                        token,
+                        token
                     },
                 });
                 setComplaints(response.data);
@@ -38,6 +38,11 @@ function AdminDashboard() {
 
     // Update complaint status
     const handleUpdateStatus = async () => {
+        if (!statusUpdate) {
+            alert("Please select a status before updating.");
+            return;
+        }
+
         if (selectedComplaint) {
             try {
                 await axios.put(
@@ -45,7 +50,7 @@ function AdminDashboard() {
                     { status: statusUpdate },
                     {
                         headers: {
-                            Authorization: `Bearer ${token}`,
+                            token,
                         },
                     }
                 );
@@ -53,7 +58,7 @@ function AdminDashboard() {
                 setShowModal(false);
                 setComplaints((prev) =>
                     prev.map((comp) =>
-                        comp.id === selectedComplaint.id ? { ...comp, status: statusUpdate } : comp
+                        comp._id === selectedComplaint._id ? { ...comp, status: statusUpdate } : comp
                     )
                 );
             } catch (error) {
@@ -70,7 +75,7 @@ function AdminDashboard() {
                 { message: emergencyMessage },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        token,
                     },
                 }
             );
@@ -107,24 +112,32 @@ function AdminDashboard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {complaints.map((complaint) => (
-                                <tr key={complaint.id}>
-                                    <td>{complaint.id}</td>
-                                    <td>{complaint.category}</td>
-                                    <td>{complaint.description}</td>
-                                    <td>{complaint.urgency}</td>
-                                    <td>{complaint.status}</td>
-                                    <td>
-                                        <Button
-                                            variant="primary"
-                                            size="sm"
-                                            onClick={() => handleViewComplaint(complaint)}
-                                        >
-                                            View / Update
-                                        </Button>
+                            {complaints.length > 0 ? (
+                                complaints.map((complaint) => (
+                                    <tr key={complaint._id}>
+                                        <td>{complaint._id}</td>
+                                        <td>{complaint.category}</td>
+                                        <td>{complaint.description}</td>
+                                        <td>{complaint.urgency}</td>
+                                        <td>{complaint.status}</td>
+                                        <td>
+                                            <Button
+                                                variant="primary"
+                                                size="sm"
+                                                onClick={() => handleViewComplaint(complaint)}
+                                            >
+                                                View / Update
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6" className="text-center">
+                                        No complaints found.
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </Table>
                 </Col>
@@ -138,7 +151,7 @@ function AdminDashboard() {
                 <Modal.Body>
                     {selectedComplaint && (
                         <>
-                            <p><strong>ID:</strong> {selectedComplaint.id}</p>
+                            <p><strong>ID:</strong> {selectedComplaint._id}</p>
                             <p><strong>Category:</strong> {selectedComplaint.category}</p>
                             <p><strong>Description:</strong> {selectedComplaint.description}</p>
                             <p><strong>Urgency:</strong> {selectedComplaint.urgency}</p>

@@ -24,6 +24,7 @@ const AdminHeader = () => {
                headers: { token },
             });
             setUser(response.data);
+            console.log(user);
          } catch {
             setUser(null);
          }
@@ -55,9 +56,6 @@ const AdminHeader = () => {
                   </Nav.Link>
                   <Nav.Link as={Link} to="/adminDashboard/users" className="text-white me-3">
                      <i className="fa-solid fa-users"></i> Manage Users
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/contact" className="text-white me-3">
-                     <i className="fa-regular fa-question"></i> Help and Support
                   </Nav.Link>
                   {user ? (
                      <>

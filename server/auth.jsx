@@ -1,12 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "your_secret_key";
+const SECRET_KEY = "IndusHackathon";
 
 function auth(req, res, next) {
    const token = req.headers.token;
-   if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
-   }
+   if (!token) return res.status(401).json({ message: "Unauthorized" });
 
    try {
       const decoded = jwt.verify(token, SECRET_KEY);
@@ -20,8 +18,7 @@ function auth(req, res, next) {
    }
 }
 
-
 module.exports = {
    auth,
-   SECRET_KEY
-}
+   SECRET_KEY,
+};
