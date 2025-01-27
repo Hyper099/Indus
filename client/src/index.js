@@ -3,8 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client'; // Import 'react-dom/client' for React 18
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'; // Import React Router components
-import AdminHome from './Admin/AdminHome';
-import AdminLogin from './Admin/AdminLogin';
+import AdminDashboard from './Admin/AdminDashboard';
 import App from './App';
 import { AuthProvider } from './AuthContext'; // Import AuthProvider
 import Login from './Authentication/Login';
@@ -24,31 +23,64 @@ root.render(
   <React.StrictMode>
     <AuthProvider> {/* Wrap the entire app with AuthProvider */}
       <Router>
-        {/* Header is always displayed */}
-        <Header />
-
         <Routes>
-          <Route path="/" element={<App />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Header /> {/* Header renders dynamically */}
+                <App />
+              </>
+            }
+          />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/adminlogin" element={<AdminLogin />} />
-          <Route path="/ComplaintForm" element={<ComplaintForm />} />
-          <Route path="/MyComplaints" element={<MyComplaints />} />
-          <Route path="/Contact" element={<Contact />} />
-
+          <Route
+            path="/ComplaintForm"
+            element={
+              <>
+                <Header />
+                <ComplaintForm />
+              </>
+            }
+          />
+          <Route
+            path="/MyComplaints"
+            element={
+              <>
+                <Header />
+                <MyComplaints />
+              </>
+            }
+          />
+          <Route
+            path="/Contact"
+            element={
+              <>
+                <Header />
+                <Contact />
+              </>
+            }
+          />
           <Route
             path="/home"
             element={
               <ProtectedRoute>
-                <Home />
+                <>
+                  <Header />
+                  <Home />
+                </>
               </ProtectedRoute>
             }
           />
           <Route
-            path="/Adminhome"
+            path="/AdminDashboard"
             element={
               <ProtectedRoute>
-                <AdminHome />
+                <>
+                  <Header />
+                  <AdminDashboard />
+                </>
               </ProtectedRoute>
             }
           />
