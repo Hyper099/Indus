@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Badge, Button, Card, Container, Form, Modal, Table } from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 
 function AdminDashboard() {
    const [complaints, setComplaints] = useState([]);
@@ -21,7 +21,7 @@ function AdminDashboard() {
       try {
          setLoading(true);
          const response = await axios.get("http://localhost:3001/complaints", {
-            headers: { token }
+            headers: { token },
          });
          setComplaints(response.data);
       } catch (error) {
@@ -88,25 +88,67 @@ function AdminDashboard() {
 
    const getStatusBadge = (status) => {
       const variants = {
-         "Pending": "warning",
+         Pending: "warning",
          "In Progress": "info",
-         "Resolved": "success",
-         "Escalated": "danger"
+         Resolved: "success",
+         Escalated: "danger",
       };
       return <Badge bg={variants[status] || "secondary"}>{status}</Badge>;
    };
 
    const getUrgencyBadge = (urgency) => {
       const variants = {
-         "High": "danger",
-         "Medium": "warning",
-         "Low": "info"
+         High: "danger",
+         Medium: "warning",
+         Low: "info",
       };
       return <Badge bg={variants[urgency] || "secondary"}>{urgency}</Badge>;
    };
 
+   const complaintStats = {
+      total: complaints.length,
+      resolved: complaints.filter((c) => c.status === "Resolved").length,
+      pending: complaints.filter((c) => c.status === "Pending").length,
+      escalated: complaints.filter((c) => c.status === "Escalated").length,
+   };
+
    return (
       <Container fluid className="py-4 px-4">
+         <Row className="mb-4 g-3">
+            <Col md={3}>
+               <Card className="text-center shadow-sm border-0">
+                  <Card.Body>
+                     <h6>Total Complaints</h6>
+                     <h2 className="text-primary">{complaintStats.total}</h2>
+                  </Card.Body>
+               </Card>
+            </Col>
+            <Col md={3}>
+               <Card className="text-center shadow-sm border-0">
+                  <Card.Body>
+                     <h6>Resolved Complaints</h6>
+                     <h2 className="text-success">{complaintStats.resolved}</h2>
+                  </Card.Body>
+               </Card>
+            </Col>
+            <Col md={3}>
+               <Card className="text-center shadow-sm border-0">
+                  <Card.Body>
+                     <h6>Pending Complaints</h6>
+                     <h2 className="text-warning">{complaintStats.pending}</h2>
+                  </Card.Body>
+               </Card>
+            </Col>
+            <Col md={3}>
+               <Card className="text-center shadow-sm border-0">
+                  <Card.Body>
+                     <h6>Escalated Complaints</h6>
+                     <h2 className="text-danger">{complaintStats.escalated}</h2>
+                  </Card.Body>
+               </Card>
+            </Col>
+         </Row>
+
          <Card className="shadow-sm mb-4">
             <Card.Body>
                <div className="d-flex justify-content-between align-items-center mb-4">
