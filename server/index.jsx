@@ -49,14 +49,13 @@ app.post('/login', async (req, res) => {
       name: user.name
     }, SECRET_KEY, { expiresIn: "1h" }
     );
-    res.json({ message: "Success", user,token });
+    res.json({ message: "Success", user, token });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
 });
 
-// Login for admins
-app.post('/adminlogin', async (req, res) => {
+app.post('/adminLogin', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -70,12 +69,15 @@ app.post('/adminlogin', async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const token = jwt.sign({ id: admin._id }, SECRET_KEY, { expiresIn: "1h" });
-    res.json({ message: "Success", token, admin });
+    const token = jwt.sign({ id: admin._id, role: "admin" }, SECRET_KEY, { expiresIn: "1h" });
+
+    res.json({ message: "Success", token, admin: { name: admin.name, role: "admin" } });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
 });
+
+
 
 // Submit a complaint form
 app.post('/ComplaintForm', async (req, res) => {
@@ -97,22 +99,75 @@ app.get('/home', auth, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ email: user.email, name: user.name });
+    res.json({ email: user.email, name: user.name, role: user.role });
   } catch (err) {
     res.status(500).json({ message: "An error occurred on the server", error: err });
   }
 });
 
+// Fetch all complaints for Admin or user-specific complaints for users
 app.get('/complaints', auth, async (req, res) => {
   try {
+    // Check if the user is an admin
+    if (req.isAdmin) {
+      const complaints = await ComplaintModel.find(); // Admin gets all complaints
+      return res.json(complaints);
+    }
+
+    // Regular users get only their own complaints
     const complaints = await ComplaintModel.find({
-      "contact.email": req.userEmail
+      "contact.email": req.userEmail,
     });
     res.json(complaints);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch complaints", error: err });
   }
 });
+
+app.put('/complaints/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!req.isAdmin) {
+    return res.status(403).json({ message: "Only admins can update complaint statuses" });
+  }
+
+  try {
+    const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    res.json({ message: "Status updated successfully", updatedComplaint });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update status", error: err });
+  }
+});
+
+
+app.post('/emergency', auth, async (req, res) => {
+  const { message } = req.body;
+
+  if (!req.isAdmin) {
+    return res.status(403).json({ message: "Only admins can send emergency messages" });
+  }
+
+  try {
+    // For demonstration, we're just logging the message
+    console.log("Emergency message:", message);
+    // In a real app, you might send emails, SMS, or push notifications here
+    res.json({ message: "Emergency message sent successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to send emergency message", error: err });
+  }
+});
+
+
 
 //deleting a complaint from user side
 app.delete('/complaints/:id', auth, async (req, res) => {

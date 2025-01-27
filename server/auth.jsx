@@ -2,24 +2,24 @@ const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = "your_secret_key";
 
-// Middleware to verify token
-const auth = (req, res, next) => {
-   const token = req.headers["token"];
-
+function auth(req, res, next) {
+   const token = req.headers.token;
    if (!token) {
-      return res.status(403).json({ message: "Access denied" });
+      return res.status(401).json({ message: "Unauthorized" });
    }
 
-   jwt.verify(token, SECRET_KEY, (err, decoded) => {
-      if (err) {
-         return res.status(401).json({ message: "Invalid token" });
-      }
+   try {
+      const decoded = jwt.verify(token, SECRET_KEY);
       req.userId = decoded.id;
-      req.userEmail = decoded.email; // Add email to request object
+      req.isAdmin = decoded.isAdmin || false;
+      req.userEmail = decoded.email;
       req.userName = decoded.name;
       next();
-   });
-};
+   } catch (err) {
+      res.status(403).json({ message: "Invalid token", error: err });
+   }
+}
+
 
 module.exports = {
    auth,

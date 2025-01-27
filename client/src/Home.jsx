@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import HomePageCategories from "./FrontEndComponents/HomePageCategories";
 import WhyUsSection from "./FrontEndComponents/WhyUs";
+
 function Home() {
    const { user, setUser } = useAuth();
    const navigate = useNavigate();
@@ -24,7 +25,12 @@ function Home() {
             });
             setUser(response.data);
          } catch (error) {
-            alert("Session expired or invalid. Please log in again.");
+            console.error("Error fetching user data:", error);
+            if (error.response && error.response.status === 401) {
+               alert("Session expired or unauthorized. Please log in again.");
+            } else {
+               alert("An error occurred. Please try again later.");
+            }
             localStorage.removeItem("token");
             navigate("/login");
          }
@@ -38,28 +44,29 @@ function Home() {
       minHeight: "100vh", // Ensures it covers the viewport
       paddingTop: "15px", // Adds spacing at the top
       paddingBottom: "15px", // Adds spacing at the bottom
-    };
-  
-    const transitionStyle = {
+   };
+
+   const transitionStyle = {
       textAlign: "center",
       color: "#0047AB", // Government blue
       margin: "20px", // Spacing around the transition heading
       fontSize: "34px",
       fontWeight: "bold",
-    };
+   };
+
    if (!user) {
       return <div>Loading...</div>;
    }
 
    return (
       <div style={pageStyle}>
-      <HomePageCategories />
-      {/* Transition Heading */}
-      <div style={transitionStyle}>
-        Learn More About Us
+         <HomePageCategories />
+         {/* Transition Heading */}
+         <div style={transitionStyle}>
+            Learn More About Us
+         </div>
+         <WhyUsSection />
       </div>
-      <WhyUsSection />
-    </div>
    );
 }
 

@@ -13,7 +13,7 @@ const ComplaintSchema = new mongoose.Schema({
   address: String,
   landmark: String,
   preferredContact: String,
-  area:String,
+  area: String,
 
   status: {
     type: String,

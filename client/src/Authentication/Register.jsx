@@ -1,27 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 function RegisterForm() {
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const handleRegister = (e) => {
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log(name, email, password)
-    axios.post('http://localhost:3001/register', { name, email, password })
-      .then(result => {
-        console.log(result)
-        navigate('/login')
-      })
-      .catch(err => console.log(err))
-    // Add logic to handle user registration
+    try {
+      await axios.post("http://localhost:3001/register", { name, email, password });
+      alert("Registration successful!");
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration error:", err);
+      alert("Registration failed. Please try again.");
+    }
   };
-
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-
 
   return (
     <Container className="mt-5">
@@ -34,75 +32,47 @@ function RegisterForm() {
               <Form.Control
                 type="text"
                 placeholder="Enter your name"
-                name="name"
-
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter your email"
-                name="email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Enter your password"
-                name="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </Form.Group>
-
             <Button variant="primary" type="submit" className="w-100">
               Register
             </Button>
           </Form>
-
           <div className="text-center mt-3">
             <p>
               Already have an account?{" "}
-
               <Link to="/login">
-                <Button
-
-                  variant="link"
-
-                  style={{ padding: 0 }}
-                >
+                <Button variant="link" style={{ padding: 0 }}>
                   Login
-                </Button>
-              </Link>
-            </p>
-          </div>
-          <div className="text-center mt-3">
-            <p>
-              Are you an admin?{" "}
-
-              <Link to="/adminlogin">
-                <Button
-
-                  variant="link"
-
-                  style={{ padding: 0 }}
-                >
-                  Admin Login
                 </Button>
               </Link>
             </p>
           </div>
         </Col>
       </Row>
-
     </Container>
   );
 }
