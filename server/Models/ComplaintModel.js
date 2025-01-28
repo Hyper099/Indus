@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 
 const ComplaintSchema = new mongoose.Schema({
-  // userId: ObjectId,
   category: String,
   description: String,
   urgency: String,
