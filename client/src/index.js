@@ -19,6 +19,8 @@ import Home from './Home';
 import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
 import './styles/index.css';
 
+import AboutUsNew from './FrontEndComponents/AboutUs';
+
 // Create a root container for React 18
 const root = ReactDOM.createRoot(document.getElementById('root')); // Ensure the ID matches the one in your index.html
 
@@ -95,6 +97,17 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/AboutUsNew"
+          element={
+            <>
+              {renderHeader()}
+              <AboutUsNew />
+            </>
+          }
+        />
+
         {/* <Route
           path="/AdminDashboard/complaints"
           element={
