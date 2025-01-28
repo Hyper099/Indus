@@ -174,6 +174,7 @@ function AdminDashboard() {
                            <tr>
                               <th>ID</th>
                               <th>Category</th>
+                              <th>Area</th>
                               <th>Description</th>
                               <th>Urgency</th>
                               <th>Status</th>
