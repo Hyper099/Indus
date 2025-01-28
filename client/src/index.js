@@ -16,6 +16,7 @@ import Contact from './FrontEndComponents/Contact';
 import Header from "./FrontEndComponents/Header";
 import MyComplaints from './FrontEndComponents/MyComplaints';
 import Home from './Home';
+import Notifications from './FrontEndComponents/Notfications';
 import ProtectedRoute from './ProtectedRoute';
 import './styles/index.css';
 
@@ -75,6 +76,11 @@ const AppRoutes = () => {
             </>
           }
         />
+        <Route path="/notifications" element={
+          <>
+          {renderHeader()}
+          <Notifications /></>} />
+
         <Route
           path="/AboutUsNew"
           element={

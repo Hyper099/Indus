@@ -60,6 +60,9 @@ const Header = () => {
             <Nav.Link as={Link} to="/Contact" className="text-white me-3">
               <i className="fa-regular fa-question"></i> Help and Support
             </Nav.Link>
+            <Nav.Link as={Link} to="/notifications" className="text-white me-3">
+              <i className="fa-regular fa-circle-exclamation"></i>Notifications
+            </Nav.Link>
             {user ? (
               <>
                 <span className="text-white me-3">Welcome, {user.name}</span>
