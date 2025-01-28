@@ -20,12 +20,23 @@ function Home() {
          }
 
          try {
-            const response = await axios.get("http://localhost:3001/home", {
+            // Fetch user data
+            const userResponse = await axios.get("http://localhost:3001/home", {
                headers: { token },
             });
-            setUser(response.data);
+            setUser(userResponse.data);
+
+            // Fetch unread notifications count
+            const notificationsResponse = await axios.get("http://localhost:3001/notifications/unread-count", {
+               headers: { token },
+            });
+
+            const { unreadCount } = notificationsResponse.data;
+            if (unreadCount > 0) {
+               alert(`You have ${unreadCount} new notification${unreadCount > 1 ? "s" : ""}!`);
+            }
          } catch (error) {
-            console.error("Error fetching user data:", error);
+            console.error("Error fetching user or notifications data:", error);
             if (error.response && error.response.status === 401) {
                alert("Session expired or unauthorized. Please log in again.");
             } else {
