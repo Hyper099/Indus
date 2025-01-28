@@ -20,6 +20,8 @@ import Notifications from './FrontEndComponents/Notfications';
 import ProtectedRoute from './ProtectedRoute';
 import './styles/index.css';
 
+import AboutUsNew from './FrontEndComponents/AboutUs';
+
 // Create a root container for React 18
 const root = ReactDOM.createRoot(document.getElementById('root')); // Ensure the ID matches the one in your index.html
 
@@ -79,6 +81,15 @@ const AppRoutes = () => {
           {renderHeader()}
           <Notifications /></>} />
 
+        <Route
+          path="/AboutUsNew"
+          element={
+            <>
+              {renderHeader()}
+              <AboutUsNew />
+            </>
+          }
+        />
         <Route
           path="/home"
           element={
