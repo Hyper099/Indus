@@ -27,8 +27,8 @@ const ManageUsers = () => {
          console.log("Token:", token);
 
          // First, test if the API is reachable
-         const testResponse = await axios.get('http://localhost:3001/api/test');
-         console.log("API Test Response:", testResponse.data);
+         //const testResponse = await axios.get('http://localhost:3001/api/test');
+         //console.log("API Test Response:", testResponse.data);
 
          // Then try the users endpoint
          const response = await axios.get('http://localhost:3001/admin/users', {
