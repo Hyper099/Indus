@@ -88,13 +88,14 @@ function AdminDashboard() {
 
    const getStatusBadge = (status) => {
       const variants = {
-         Pending: "warning",
-         "In Progress": "info",
-         Resolved: "success",
-         Escalated: "danger",
+         Pending: "warning", // Yellow
+         "In Progress": "info", // Blue
+         Resolved: "success", // Green
+         Escalated: "danger", // Red
       };
-      return <Badge bg={variants[status] || "secondary"}>{status}</Badge>;
+      return <Badge bg={variants[status] || "secondary"} className="px-2 py-1">{status}</Badge>;
    };
+
 
    const getUrgencyBadge = (urgency) => {
       const variants = {
@@ -107,9 +108,9 @@ function AdminDashboard() {
 
    const complaintStats = {
       total: complaints.length,
-      resolved: complaints.filter((c) => c.status === "Resolved").length,
-      pending: complaints.filter((c) => c.status === "Pending").length,
-      escalated: complaints.filter((c) => c.status === "Escalated").length,
+      resolved: complaints.filter((c) => c.status === "resolved").length,
+      pending: complaints.filter((c) => c.status === "pending").length,
+      escalated: complaints.filter((c) => c.status === "escalated").length,
    };
 
    return (
@@ -178,49 +179,49 @@ function AdminDashboard() {
                               <th>Status</th>
                               <th>Date</th>
                               <th>Actions</th>
-                              
+
                            </tr>
                         </thead>
                         <tbody>
-   {loading ? (
-      <tr>
-         <td colSpan="6" className="text-center py-4">
-            Loading complaints...
-         </td>
-      </tr>
-   ) : complaints.length > 0 ? (
-      complaints
-         .slice(-6) // Get the last 6 complaints
-         .reverse() // Reverse the slice to show the latest first
-         .map((complaint) => (
-            <tr key={complaint._id}>
-               <td>
-                  <small className="text-muted">{complaint._id}</small>
-               </td>
-               <td>{complaint.category}</td>
-               <td>{complaint.description.substring(0, 100)}...</td>
-               <td>{getUrgencyBadge(complaint.urgency)}</td>
-               <td>{getStatusBadge(complaint.status)}</td>
-               <td>{complaint.createdAt}</td>
-               <td>
-                  <Button
-                     variant="outline-primary"
-                     size="sm"
-                     onClick={() => handleViewComplaint(complaint)}
-                  >
-                     View / Update
-                  </Button>
-               </td>
-            </tr>
-         ))
-   ) : (
-      <tr>
-         <td colSpan="6" className="text-center py-4">
-            No complaints found.
-         </td>
-      </tr>
-   )}
-</tbody>
+                           {loading ? (
+                              <tr>
+                                 <td colSpan="6" className="text-center py-4">
+                                    Loading complaints...
+                                 </td>
+                              </tr>
+                           ) : complaints.length > 0 ? (
+                              complaints
+                                 .slice(-6) // Get the last 6 complaints
+                                 .reverse() // Reverse the slice to show the latest first
+                                 .map((complaint) => (
+                                    <tr key={complaint._id}>
+                                       <td>
+                                          <small className="text-muted">{complaint._id}</small>
+                                       </td>
+                                       <td>{complaint.category}</td>
+                                       <td>{complaint.description.substring(0, 100)}...</td>
+                                       <td>{getUrgencyBadge(complaint.urgency)}</td>
+                                       <td>{getStatusBadge(complaint.status)}</td>
+                                       <td>{complaint.createdAt}</td>
+                                       <td>
+                                          <Button
+                                             variant="outline-primary"
+                                             size="sm"
+                                             onClick={() => handleViewComplaint(complaint)}
+                                          >
+                                             View / Update
+                                          </Button>
+                                       </td>
+                                    </tr>
+                                 ))
+                           ) : (
+                              <tr>
+                                 <td colSpan="6" className="text-center py-4">
+                                    No complaints found.
+                                 </td>
+                              </tr>
+                           )}
+                        </tbody>
 
                      </Table>
                   </Card.Body>

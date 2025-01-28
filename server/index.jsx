@@ -23,13 +23,31 @@ mongoose
 
 // Routes
 
-// **Register a new user**
+// Registration route with email existence check
 app.post("/register", async (req, res) => {
   try {
+    // Check if email already exists
+    const existingUser = await UserModel.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        message: "A user with this email address already exists"
+      });
+    }
+
+    // If email doesn't exist, create the new user
     const user = await UserModel.create(req.body);
-    res.json(user);
+
+    // Return user data without password
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    res.json(userResponse);
   } catch (err) {
-    res.status(500).json({ message: "Error creating user", error: err });
+    res.status(500).json({
+      message: "Error creating user",
+      error: err.message
+    });
   }
 });
 
@@ -175,6 +193,77 @@ app.delete("/complaints/:id", auth, async (req, res) => {
     res.status(500).json({ message: "Failed to delete complaint", error: err });
   }
 });
+
+// Get all users (Admin only)
+app.get("/admin/users", auth, async (req, res) => {
+  if (!req.isAdmin) {
+    return res.status(403).json({ message: "Admin access required" });
+  }
+
+  try {
+    // Use your existing UserModel
+    const users = await UserModel.find({}, '-password');
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching users", error: err.message });
+  }
+});
+
+
+// Create new user (Admin only)
+app.post("/admin/users", auth, async (req, res) => {
+  if (!req.isAdmin) return res.status(403).json({ message: "Admin access required" });
+
+  try {
+    const { name, email, role, password = "defaultPassword123" } = req.body;
+    const newUser = await UserModel.create({
+      name,
+      email,
+      role,
+      password
+    });
+
+    const userWithoutPassword = { ...newUser.toObject(), password: undefined };
+    res.json(userWithoutPassword);
+  } catch (err) {
+    res.status(500).json({ message: "Error creating user", error: err });
+  }
+});
+
+
+// Update user (Admin only)
+app.put("/admin/users/:id", auth, async (req, res) => {
+  if (!req.isAdmin) return res.status(403).json({ message: "Admin access required" });
+
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, select: '-password' }
+    );
+
+    if (!updatedUser) return res.status(404).json({ message: "User not found" });
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating user", error: err });
+  }
+});
+
+app.delete("/admin/users/:id", auth, async (req, res) => {
+  if (!req.isAdmin) return res.status(403).json({ message: "Admin access required" });
+
+  try {
+    const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
+    if (!deletedUser) return res.status(404).json({ message: "User not found" });
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting user", error: err });
+  }
+});
+
+
+
+
 
 // Start the server
 const PORT = 3001;

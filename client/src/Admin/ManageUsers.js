@@ -7,6 +7,7 @@ const ManageUsers = () => {
    const [showModal, setShowModal] = useState(false);
    const [selectedUser, setSelectedUser] = useState(null);
    const [alert, setAlert] = useState(null);
+   const [loading, setLoading] = useState(true);
    const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -19,13 +20,27 @@ const ManageUsers = () => {
 
    const fetchUsers = async () => {
       try {
+         setLoading(true);
          const token = localStorage.getItem('token');
+
+         // Debug logging
+         console.log("Token:", token);
+
+         // First, test if the API is reachable
+         const testResponse = await axios.get('http://localhost:3001/api/test');
+         console.log("API Test Response:", testResponse.data);
+
+         // Then try the users endpoint
          const response = await axios.get('http://localhost:3001/admin/users', {
             headers: { token }
          });
+         console.log("Users Response:", response.data);
          setUsers(response.data);
       } catch (error) {
-         showAlert('Error fetching users', 'danger');
+         console.error("Full error:", error);
+         showAlert(error.response?.data?.message || 'Error fetching users', 'danger');
+      } finally {
+         setLoading(false);
       }
    };
 
@@ -60,7 +75,7 @@ const ManageUsers = () => {
          fetchUsers();
          resetForm();
       } catch (error) {
-         showAlert('Error saving user', 'danger');
+         showAlert(error.response?.data?.message || 'Error saving user', 'danger');
       }
    };
 
@@ -69,7 +84,7 @@ const ManageUsers = () => {
       setFormData({
          name: user.name,
          email: user.email,
-         role: user.role
+         role: user.role || 'user'
       });
       setShowModal(true);
    };
@@ -84,7 +99,7 @@ const ManageUsers = () => {
             showAlert('User deleted successfully', 'success');
             fetchUsers();
          } catch (error) {
-            showAlert('Error deleting user', 'danger');
+            showAlert(error.response?.data?.message || 'Error deleting user', 'danger');
          }
       }
    };
@@ -126,21 +141,40 @@ const ManageUsers = () => {
                      </tr>
                   </thead>
                   <tbody>
-                     {users.map((user) => (
-                        <tr key={user._id}>
-                           <td>{user.name}</td>
-                           <td>{user.email}</td>
-                           <td>{user.role}</td>
-                           <td>
-                              <Button variant="info" size="sm" className="me-2" onClick={() => handleEdit(user)}>
-                                 Edit
-                              </Button>
-                              <Button variant="danger" size="sm" onClick={() => handleDelete(user._id)}>
-                                 Delete
-                              </Button>
-                           </td>
+                     {loading ? (
+                        <tr>
+                           <td colSpan="4" className="text-center">Loading users...</td>
                         </tr>
-                     ))}
+                     ) : users.length === 0 ? (
+                        <tr>
+                           <td colSpan="4" className="text-center">No users found</td>
+                        </tr>
+                     ) : (
+                        users.map((user) => (
+                           <tr key={user._id}>
+                              <td>{user.name}</td>
+                              <td>{user.email}</td>
+                              <td>{user.role || 'user'}</td>
+                              <td>
+                                 <Button
+                                    variant="info"
+                                    size="sm"
+                                    className="me-2"
+                                    onClick={() => handleEdit(user)}
+                                 >
+                                    Edit
+                                 </Button>
+                                 <Button
+                                    variant="danger"
+                                    size="sm"
+                                    onClick={() => handleDelete(user._id)}
+                                 >
+                                    Delete
+                                 </Button>
+                              </td>
+                           </tr>
+                        ))
+                     )}
                   </tbody>
                </Table>
             </Card.Body>
@@ -187,10 +221,14 @@ const ManageUsers = () => {
                      </Form.Select>
                   </Form.Group>
                   <div className="text-end">
-                     <Button variant="secondary" className="me-2" onClick={() => {
-                        setShowModal(false);
-                        resetForm();
-                     }}>
+                     <Button
+                        variant="secondary"
+                        className="me-2"
+                        onClick={() => {
+                           setShowModal(false);
+                           resetForm();
+                        }}
+                     >
                         Cancel
                      </Button>
                      <Button variant="primary" type="submit">
