@@ -200,6 +200,7 @@ function AdminDashboard() {
                                           <small className="text-muted">{complaint._id}</small>
                                        </td>
                                        <td>{complaint.category}</td>
+                                       <td>{complaint.area}</td>
                                        <td>{complaint.description.substring(0, 100)}...</td>
                                        <td>{getUrgencyBadge(complaint.urgency)}</td>
                                        <td>{getStatusBadge(complaint.status)}</td>

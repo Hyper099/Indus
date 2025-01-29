@@ -15,13 +15,13 @@ const issueCategories = [
   {
     title: "Pollution",
     image: img1,
-    description: "Potholes, broken roads, or other road problems.",
+    description: "Air, water, or noise pollution affecting public health.",
     formLink: "/ComplaintForm?category=pollution",
   },
   {
     title: "Stray Animals",
     image: img2,
-    description: "Potholes, broken roads, or other road problems.",
+    description: " Uncontrolled stray dogs, cattle, or other animals causing nuisance",
     formLink: "/ComplaintForm?category=stray-animals",
   },
   {
@@ -33,31 +33,31 @@ const issueCategories = [
   {
     title: "Garbage Collection",
     image: img4,
-    description: "Potholes, broken roads, or other road problems.",
+    description: "Delayed or missed waste pickup leading to unhygienic conditions.",
     formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Sewage And Drainage",
     image: img5,
-    description: "Potholes, broken roads, or other road problems..",
+    description: " Blocked or overflowing drains causing waterlogging and foul odor",
     formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Streetlights",
     image: img6,
-    description: "Potholes, broken roads, or other road problems.",
+    description: "Non-functional or broken streetlights leading to safety concerns",
     formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Theft",
     image: img7,
-    description: "Potholes, broken roads, or other road problems.",
+    description: "Incidents of robbery, chain snatching, or vehicle theft in public areas.",
     formLink: "/ComplaintForm?category=garbage",
   },
   {
     title: "Contaminated Water Bodies",
     image: img8,
-    description: "Potholes, broken roads, or other road problems.",
+    description: " Polluted lakes, rivers, or water sources affecting the environment.",
     formLink: "/ComplaintForm?category=garbage",
   },
   {
