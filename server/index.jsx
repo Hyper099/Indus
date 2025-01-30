@@ -310,9 +310,8 @@ app.delete("/admin/users/:id", auth, async (req, res) => {
 //!MAIN FUNCTION TO START THE SERVER
 async function main() {
   try {
-
     // Connect to MongoDB
-    await mongoose.connect(DB_URI, {
+    await mongoose.connect("mongodb+srv://MananDataB:manan2005@cluster0.a3rww.mongodb.net/Users?retryWrites=true&w=majority", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -329,7 +328,7 @@ async function main() {
     process.exit(1);
   }
 }
-
+main();
 
 
 
