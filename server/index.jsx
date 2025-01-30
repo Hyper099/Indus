@@ -135,6 +135,7 @@ app.get("/complaints", auth, async (req, res) => {
   }
 });
 
+
 // **Update complaint status (Admin only)** and notif
 app.put("/complaints/:id", auth, async (req, res) => {
   if (!req.isAdmin) return res.status(403).json({ message: "Only admins can update complaint statuses" });
@@ -307,21 +308,28 @@ app.delete("/admin/users/:id", auth, async (req, res) => {
 });
 
 
-//! MAIN FUNCTION TO START THE SERVER.
+//!MAIN FUNCTION TO START THE SERVER
 async function main() {
   try {
-    await mongoose.connect(process.env.MONGO_URL, {
+    // Connect to MongoDB
+    await mongoose.connect("mongodb+srv://MananDataB:manan2005@cluster0.a3rww.mongodb.net/Users?retryWrites=true&w=majority", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("Connected to MongoDB!");
-    app.listen(process.env.PORT, () => {
-      console.log(`Server is running on port ${process.env.PORT}`);
+    console.log("Connected to MongoDB successfully!");
+
+    // Start the server
+    const PORT = 3001;
+    app.listen(PORT, () => {
+      console.log(`Server is running on port : ${PORT}`);
     });
+
   } catch (e) {
-    console.error("Error starting the server:", e.message);
+    console.error("Failed to start the server:", e.message);
     process.exit(1);
   }
 }
-
 main();
+
+
+
