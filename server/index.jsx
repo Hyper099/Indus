@@ -16,6 +16,7 @@ app.use(cors());
 
 
 // Routes
+//!only for user.
 // Registration route with email existence check
 app.post("/register", async (req, res) => {
   try {
@@ -53,8 +54,9 @@ app.post("/login", async (req, res) => {
 
     if (!user) return res.status(404).json({ message: "No record found" });
 
-    if (user.password !== password) return res.status(401).json({ message: "Incorrect password" });
+    if (user.password !== password) return res.status(401).json({ message: "Incorrect Credentials." });
 
+    //! Passing required fields in token.
     const token = jwt.sign(
       {
         id: user._id,
