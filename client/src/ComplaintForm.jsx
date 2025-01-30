@@ -7,7 +7,7 @@ function ComplaintForm() {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [urgency, setUrgency] = useState('');
-  const [setPhoto] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [contact, setContact] = useState({ name: '', email: '', phone: '' });
   const [address, setAddress] = useState('');
   const [landmark, setLandmark] = useState('');
@@ -47,7 +47,16 @@ function ComplaintForm() {
 
   }, [navigate]);
 
-
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPhoto(reader.result); // Store Base64 string
+      };
+    }
+  };
 
   // Rest of the code...
 
@@ -66,7 +75,8 @@ function ComplaintForm() {
       address,
       landmark,
       preferredContact,
-      area
+      area,
+     
     })
       .then(result => {
         console.log(result);
@@ -178,11 +188,7 @@ function ComplaintForm() {
             {/* Photo Upload */}
             <Form.Group controlId="formPhoto" className="mb-3">
               <Form.Label style={{ fontWeight: 'bold' }}>Upload Photo</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(e) => setPhoto(e.target.files[0])}
-                required
-              />
+              <Form.Control type="file" onChange={handleImageChange} required />
             </Form.Group>
 
             {/* Contact Details */}
