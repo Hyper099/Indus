@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -12,17 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
-mongoose
-  .connect("mongodb+srv://MananDataB:manan2005@cluster0.a3rww.mongodb.net/Users?retryWrites=true&w=majority", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Failed to connect to MongoDB", err));
 
 // Routes
-
 // Registration route with email existence check
 app.post("/register", async (req, res) => {
   try {
@@ -142,83 +135,78 @@ app.get("/complaints", auth, async (req, res) => {
   }
 });
 
-
-
-
-
-
 // **Update complaint status (Admin only)** and notif
 app.put("/complaints/:id", auth, async (req, res) => {
   if (!req.isAdmin) return res.status(403).json({ message: "Only admins can update complaint statuses" });
 
   try {
-      const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
-          req.params.id,
-          { status: req.body.status },
-          { new: true }
-      );
+    const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
 
-      if (!updatedComplaint) return res.status(404).json({ message: "Complaint not found" });
+    if (!updatedComplaint) return res.status(404).json({ message: "Complaint not found" });
 
-      // Add notification to the user
-      const user = await UserModel.findOne({ email: updatedComplaint.contact.email });
+    // Add notification to the user
+    const user = await UserModel.findOne({ email: updatedComplaint.contact.email });
 
-      if (user) {
-          user.notifications.push({
-              message: `Your complaint status has been updated to "${req.body.status}". Feedback: ${req.body.response || "No feedback provided."}`
-          });
-          await user.save();
-      }
+    if (user) {
+      user.notifications.push({
+        message: `Your complaint status has been updated to "${req.body.status}". Feedback: ${req.body.response || "No feedback provided."}`
+      });
+      await user.save();
+    }
 
-      res.json({ message: "Status updated successfully", updatedComplaint });
+    res.json({ message: "Status updated successfully", updatedComplaint });
   } catch (err) {
-      res.status(500).json({ message: "Failed to update status", error: err });
+    res.status(500).json({ message: "Failed to update status", error: err });
   }
 });
 //to get notif
 app.get("/notifications", auth, async (req, res) => {
   try {
-      const user = await UserModel.findById(req.userId);
+    const user = await UserModel.findById(req.userId);
 
-      if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-      res.json(user.notifications);
+    res.json(user.notifications);
   } catch (err) {
-      res.status(500).json({ message: "Failed to fetch notifications", error: err });
+    res.status(500).json({ message: "Failed to fetch notifications", error: err });
   }
 });
 //notif for each user
 app.put("/notifications/:id/read", auth, async (req, res) => {
   try {
-      const user = await UserModel.findById(req.userId);
+    const user = await UserModel.findById(req.userId);
 
-      if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-      const notification = user.notifications.id(req.params.id);
+    const notification = user.notifications.id(req.params.id);
 
-      if (!notification) return res.status(404).json({ message: "Notification not found" });
+    if (!notification) return res.status(404).json({ message: "Notification not found" });
 
-      notification.read = true;
-      await user.save();
+    notification.read = true;
+    await user.save();
 
-      res.json({ message: "Notification marked as read", notification });
+    res.json({ message: "Notification marked as read", notification });
   } catch (err) {
-      res.status(500).json({ message: "Failed to update notification", error: err });
+    res.status(500).json({ message: "Failed to update notification", error: err });
   }
 });
 
 //notif alert
 app.get("/notifications/unread-count", auth, async (req, res) => {
   try {
-      const user = await UserModel.findById(req.userId);
+    const user = await UserModel.findById(req.userId);
 
-      if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-      const unreadCount = user.notifications.filter((notification) => !notification.read).length;
+    const unreadCount = user.notifications.filter((notification) => !notification.read).length;
 
-      res.json({ unreadCount });
+    res.json({ unreadCount });
   } catch (err) {
-      res.status(500).json({ message: "Failed to fetch unread notifications count", error: err });
+    res.status(500).json({ message: "Failed to fetch unread notifications count", error: err });
   }
 });
 
@@ -319,11 +307,21 @@ app.delete("/admin/users/:id", auth, async (req, res) => {
 });
 
 
+//! MAIN FUNCTION TO START THE SERVER.
+async function main() {
+  try {
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connected to MongoDB!");
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
+  } catch (e) {
+    console.error("Error starting the server:", e.message);
+    process.exit(1);
+  }
+}
 
-
-
-// Start the server
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server is running on port : ${PORT}`);
-});
+main();

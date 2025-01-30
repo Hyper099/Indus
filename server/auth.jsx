@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "IndusHackathon";
+const SECRET_KEY = prcoess.env.SECRET_KEY;
 
 function auth(req, res, next) {
    const token = req.headers.token;

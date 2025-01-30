@@ -5,7 +5,7 @@ import { useAuth } from "./AuthContext";
 import HomePageCategories from "./FrontEndComponents/HomePageCategories";
 import WhyUsSection from "./FrontEndComponents/WhyUs";
 
-function Home() {
+const Home = () => {
    const { user, setUser } = useAuth();
    const navigate = useNavigate();
 
@@ -20,20 +20,24 @@ function Home() {
          }
 
          try {
-            // Fetch user data
             const userResponse = await axios.get("http://localhost:3001/home", {
                headers: { token },
             });
             setUser(userResponse.data);
 
-            // Fetch unread notifications count
-            const notificationsResponse = await axios.get("http://localhost:3001/notifications/unread-count", {
-               headers: { token },
-            });
+            const notificationsResponse = await axios.get(
+               "http://localhost:3001/notifications/unread-count",
+               {
+                  headers: { token },
+               }
+            );
 
             const { unreadCount } = notificationsResponse.data;
             if (unreadCount > 0) {
-               alert(`You have ${unreadCount} new notification${unreadCount > 1 ? "s" : ""}!`);
+               alert(
+                  `You have ${unreadCount} new notification${unreadCount > 1 ? "s" : ""
+                  }!`
+               );
             }
          } catch (error) {
             console.error("Error fetching user or notifications data:", error);
@@ -50,35 +54,39 @@ function Home() {
       fetchUserData();
    }, [navigate, setUser]);
 
-   const pageStyle = {
-      backgroundColor: "#f0f8ff", // Light gray for the entire page
-      minHeight: "100vh", // Ensures it covers the viewport
-      paddingTop: "15px", // Adds spacing at the top
-      paddingBottom: "15px", // Adds spacing at the bottom
-   };
-
-   const transitionStyle = {
-      textAlign: "center",
-      color: "#0047AB", // Government blue
-      margin: "20px", // Spacing around the transition heading
-      fontSize: "34px",
-      fontWeight: "bold",
-   };
-
    if (!user) {
-      return <div>Loading...</div>;
+      return (
+         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-blue-100">
+            <div className="animate-pulse text-2xl text-blue-800 font-semibold">
+               Loading...
+            </div>
+         </div>
+      );
    }
 
    return (
-      <div style={pageStyle}>
-         <HomePageCategories />
-         {/* Transition Heading */}
-         <div style={transitionStyle}>
-            Learn More About Us
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50">
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="space-y-16">
+               {/* Categories Section */}
+               <section className="rounded-2xl shadow-lg bg-white p-8 transform hover:scale-[1.02] transition-transform duration-300">
+                  <HomePageCategories />
+               </section>
+
+               {/* Learn More Section */}
+               <section className="text-center space-y-8">
+                  <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 inline-block transform hover:scale-105 transition-transform duration-300">
+                     Learn More About Us
+                  </h2>
+
+                  <div className="rounded-2xl shadow-lg bg-white p-8 transform hover:scale-[1.02] transition-transform duration-300">
+                     <WhyUsSection />
+                  </div>
+               </section>
+            </div>
          </div>
-         <WhyUsSection />
       </div>
    );
-}
+};
 
 export default Home;
