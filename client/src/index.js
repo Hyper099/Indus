@@ -19,6 +19,7 @@ import Home from './Home';
 import Notifications from './FrontEndComponents/Notfications';
 import ProtectedRoute from './ProtectedRoute';
 import './styles/index.css';
+import Footer from './FrontEndComponents/Footer';
 
 import AboutUsNew from './FrontEndComponents/AboutUs';
 
@@ -35,6 +36,13 @@ const AppRoutes = () => {
     return <Header />;
   };
 
+  const renderFooter = () => {
+    if (user && user.role === 'admin') {
+      return <></>;
+    }
+    return <Footer />;
+  };
+
   return (
     <Router>
       <Routes>
@@ -44,6 +52,8 @@ const AppRoutes = () => {
             <>
               {renderHeader()}
               <App />
+              {renderFooter()}
+              
             </>
           }
         />
@@ -55,6 +65,7 @@ const AppRoutes = () => {
             <>
               {renderHeader()}
               <ComplaintForm />
+              {renderFooter()}
             </>
           }
         />
@@ -64,6 +75,7 @@ const AppRoutes = () => {
             <>
               {renderHeader()}
               <MyComplaints />
+              {renderFooter()}
             </>
           }
         />
@@ -73,13 +85,16 @@ const AppRoutes = () => {
             <>
               {renderHeader()}
               <Contact />
+              {renderFooter()}
             </>
           }
         />
         <Route path="/notifications" element={
           <>
           {renderHeader()}
-          <Notifications /></>} />
+          <Notifications />
+          {renderFooter()}
+          </>} />
 
         <Route
           path="/AboutUsNew"
@@ -87,6 +102,7 @@ const AppRoutes = () => {
             <>
               {renderHeader()}
               <AboutUsNew />
+              {renderFooter()}
             </>
           }
         />

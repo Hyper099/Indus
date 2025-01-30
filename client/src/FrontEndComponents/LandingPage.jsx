@@ -3,6 +3,7 @@ import { Carousel, Col, Container, Row } from "react-bootstrap";
 import RegisterForm from "../Authentication/Register";
 import bg1 from '../Graphics/LandingPageBg.jpg'
 import AboutUs from "./About";
+import registerPage from '../Graphics/registerPage.png'
 function LandingPage() {
   return (
     <div style={{ fontFamily: "Arial, sans-serif", color: "#333" }}>
@@ -60,10 +61,12 @@ function LandingPage() {
             <Carousel.Item>
               <div
                 style={{
-                  height: "300px",
-                  backgroundImage: "url('https://via.placeholder.com/800x300')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
+                  height: "400px",
+                  backgroundImage: `url(${registerPage})`,
+                  backgroundSize: "contain", // Ensures the whole image is visible
+                  backgroundRepeat: "no-repeat", // Prevents repetition
+                  backgroundPosition: "center", // Centers the image
+                  backgroundColor: "#000", // Optional: Adds a fallback background
                   color: "#fff",
                   textAlign: "center",
                   display: "flex",

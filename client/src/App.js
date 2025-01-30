@@ -8,7 +8,7 @@ function App() {
    return (
       <div>
          <LandingPage/>
-         <Footer/>
+         
       </div>
    );
 }
