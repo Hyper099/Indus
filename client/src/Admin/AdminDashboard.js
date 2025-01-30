@@ -154,14 +154,7 @@ function AdminDashboard() {
             <Card.Body>
                <div className="d-flex justify-content-between align-items-center mb-4">
                   <h2 className="mb-0">Admin Dashboard</h2>
-                  <Button
-                     variant="danger"
-                     onClick={() => setShowEmergencyModal(true)}
-                     className="d-flex align-items-center"
-                  >
-                     <i className="fas fa-exclamation-triangle me-2"></i>
-                     Issue Emergency Warning
-                  </Button>
+              
                </div>
 
                <Card className="border-0 shadow-sm">
