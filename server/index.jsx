@@ -7,6 +7,7 @@ const { auth, SECRET_KEY } = require("./auth.jsx");
 const jwt = require("jsonwebtoken");
 const UserModel = require("./Models/UserModel");
 const AdminModel = require("./Models/AdminModel");
+const WarningModel = require("./Models/WarningModel.js")
 const ComplaintModel = require("./Models/ComplaintModel");
 
 // Middleware setup
@@ -214,17 +215,7 @@ app.get("/notifications/unread-count", auth, async (req, res) => {
 });
 
 
-// **Send emergency message (Admin only)**
-app.post("/emergency", auth, async (req, res) => {
-  if (!req.isAdmin) return res.status(403).json({ message: "Only admins can send emergency messages" });
 
-  try {
-    console.log("Emergency message:", req.body.message);
-    res.json({ message: "Emergency message sent successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to send emergency message", error: err });
-  }
-});
 
 // **Delete a complaint (User only)**
 app.delete("/complaints/:id", auth, async (req, res) => {
