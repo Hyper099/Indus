@@ -312,7 +312,7 @@ app.delete("/admin/users/:id", auth, async (req, res) => {
 async function main() {
   try {
     // Connect to MongoDB
-    await mongoose.connect("mongodb+srv://MananDataB:manan2005@cluster0.a3rww.mongodb.net/Users?retryWrites=true&w=majority", {
+    await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
