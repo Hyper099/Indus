@@ -13,13 +13,13 @@ import Login from './Authentication/Login';
 import RegisterForm from './Authentication/Register';
 import ComplaintForm from './ComplaintForm';
 import Contact from './FrontEndComponents/Contact';
+import Footer from './FrontEndComponents/Footer';
 import Header from "./FrontEndComponents/Header";
 import MyComplaints from './FrontEndComponents/MyComplaints';
-import Home from './Home';
 import Notifications from './FrontEndComponents/Notfications';
+import Home from './Home';
 import ProtectedRoute from './ProtectedRoute';
 import './styles/index.css';
-import Footer from './FrontEndComponents/Footer';
 
 import AboutUsNew from './FrontEndComponents/AboutUs';
 
@@ -53,12 +53,28 @@ const AppRoutes = () => {
               {renderHeader()}
               <App />
               {renderFooter()}
-              
+
             </>
           }
         />
-        <Route path="/register" element={<RegisterForm />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/register"
+          element={
+            <>
+              {renderHeader()}
+              < RegisterForm />
+            </>
+          }
+
+        />
+        <Route
+          path="/login"
+          element={
+            <>
+              {renderHeader()}
+              <Login />
+            </>
+          } />
         <Route
           path="/ComplaintForm"
           element={
@@ -91,9 +107,9 @@ const AppRoutes = () => {
         />
         <Route path="/notifications" element={
           <>
-          {renderHeader()}
-          <Notifications />
-          {renderFooter()}
+            {renderHeader()}
+            <Notifications />
+            {renderFooter()}
           </>} />
 
         <Route
