@@ -110,12 +110,6 @@ const MyComplaints = () => {
    </span>
    <div style={{ display: "flex", gap: "10px" }}>
       <Button
-         variant="primary"
-         size="sm"
-      >
-         Edit
-      </Button>
-      <Button
          variant="danger"
          size="sm"
          onClick={(e) => {
