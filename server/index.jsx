@@ -7,7 +7,7 @@ const { auth, SECRET_KEY } = require("./auth.jsx");
 const jwt = require("jsonwebtoken");
 const UserModel = require("./Models/UserModel");
 const AdminModel = require("./Models/AdminModel");
-const WarningModel = require("./Models/WarningModel.js")
+// const WarningModel = require("./Models/WarningModel.js")
 const ComplaintModel = require("./Models/ComplaintModel");
 
 // Middleware setup
