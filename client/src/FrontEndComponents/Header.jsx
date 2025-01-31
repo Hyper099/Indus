@@ -50,7 +50,7 @@ const Header = () => {
               <i className="fa-regular fa-house"></i> Home
             </Nav.Link>
             <Nav.Link as={Link} to="/AboutUsNew" className="text-white me-3">
-            <i className="fa-regular fa-address-card"></i> About Us
+              <i className="fa-regular fa-address-card"></i> About Us
             </Nav.Link>
             {user && (
               <>
@@ -61,8 +61,8 @@ const Header = () => {
                   <i className="fa-regular fa-circle-exclamation"></i> My Complaints
                 </Nav.Link>
                 <Nav.Link as={Link} to="/notifications" className="text-white me-3">
-              <i className="fa-regular fa-circle-exclamation"></i> Notifications
-            </Nav.Link>
+                  <i className="fa-regular fa-circle-exclamation"></i> Notifications
+                </Nav.Link>
               </>
             )}
             <Nav.Link as={Link} to="/Contact" className="text-white me-3">
@@ -89,6 +89,7 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      <div id="google_translate_element" className="ms-auto"></div>
     </Navbar>
   );
 };
