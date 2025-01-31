@@ -39,6 +39,11 @@ const Home = () => {
                alert(`You have ${unreadCount} new notification${unreadCount > 1 ? "s" : ""}!`);
             }
 
+            const warningsResponse = await axios.get("http://localhost:3001/warnings", {
+               headers: { token },
+            });
+            setWarnings(warningsResponse.data);
+
             
          } catch (error) {
             console.error("Error fetching data:", error);
