@@ -1,30 +1,30 @@
 import React from 'react';
+import { Accordion } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
-import { Accordion, Alert, Container, Modal, Button, AccordionItem } from "react-bootstrap";
-import flowchart from '../Graphics/FLOWCHART.png'
+import flowchart from '../Graphics/FLOWCHART.png';
 const faqs = [
   {
-     title: "How long does it take to resolve a complaint.",
-  body: "It generally depends on the level of complaint (low,medium,high) , complaint with the highest priority will be resolved first."
+    title: "How long does it take to resolve a complaint.",
+    body: "It generally depends on the level of complaint (low,medium,high) , complaint with the highest priority will be resolved first."
   },
   {
     title: "What process should I follow if I want to lodge multiple complaints.",
- body: "You will have to lodge for each complaint seperately. For more details refer 'How to lodge a complaint'."
- },
- {
-  title: "Is uploading photos/documents a necessity?",
-body: "Yes, if you upload photos/documents then we will be able to measure the severity of the complaint."
-},
-{
-  title: "Do the photo/documents have to be of particular size?",
-body: "No, a particular size is not required."
-},
-{
-  title: "How to know the status of the complaint?",
-body: "Users will be updated about the status of the complaint via email or sms, or they can track it live on the webApp under the tab 'MyComplaints'."
-},
- 
- 
+    body: "You will have to lodge for each complaint seperately. For more details refer 'How to lodge a complaint'."
+  },
+  {
+    title: "Is uploading photos/documents a necessity?",
+    body: "Yes, if you upload photos/documents then we will be able to measure the severity of the complaint."
+  },
+  {
+    title: "Do the photo/documents have to be of particular size?",
+    body: "No, a particular size is not required."
+  },
+  {
+    title: "How to know the status of the complaint?",
+    body: "Users will be updated about the status of the complaint via email or sms, or they can track it live on the webApp under the tab 'MyComplaints'."
+  },
+
+
 ]
 
 function HelpAndSupport() {
@@ -42,7 +42,7 @@ function HelpAndSupport() {
     textAlign: 'center',
     color: '#003366',
     fontWeight: 'bold',
-    marginBottom: '30px',
+    marginBottom: '50px',
     textTransform: 'uppercase',
   };
 
@@ -50,7 +50,8 @@ function HelpAndSupport() {
     color: '#0056b3',
     fontSize: '18px',
     fontWeight: 'bold',
-    marginBottom: '15px',
+    marginBottom: '5px',
+    marginTop: '30px',
     textDecoration: 'underline',
   };
 
@@ -100,7 +101,7 @@ function HelpAndSupport() {
       <h2 style={headerStyle}>Help & Support</h2>
 
       <section>
-        <h3 style={sectionHeaderStyle}>Map of our application</h3>
+        <h3 style={sectionHeaderStyle}>WebApp Map</h3>
         <Image src={flowchart} fluid />
       </section>
 
@@ -140,57 +141,57 @@ function HelpAndSupport() {
 
       {/* FAQs Section */}
       <section>
-        <h3>FAQS</h3>
-      <Accordion defaultActiveKey={null}>
-                     {faqs.map((faqs, index) => (
-                        <Accordion.Item
-                           
-                           eventKey={index}
-                           style={{
-                              marginBottom: "10px",
-                              border: "1px solid",
-                              
-                              borderRadius: "5px",
-                           }}
-                        >
-                           {/* Accordion Header */}
-                           <Accordion.Header
-                              style={{
-                                 
-                                 padding: "10px 15px",
-                                 fontWeight: "bold",
-                                 borderTopLeftRadius: "5px",
-                                 borderTopRightRadius: "5px",
-                              }}
-                           >
-                             <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-         <span>
-            {faqs.title} 
-         </span>
-         
-      </div>
-      
-                           </Accordion.Header>
-      
-                           {/* Accordion Body */}
-                           <Accordion.Body
-                              style={{
-                                 
-                                 padding: "15px",
-                                 borderBottomLeftRadius: "5px",
-                                 borderBottomRightRadius: "5px",
-                              }}
-                           >
-                              <p>
-                                 <strong></strong> {faqs.body}
-                              </p>
-                              
-                      
-                           </Accordion.Body>
-                        </Accordion.Item>
-                     ))}
-                  </Accordion>
-                  </section>
+        <h3 style={{ marginBottom: '20px', marginTop: '40px' }}>FAQS</h3>
+        <Accordion defaultActiveKey={null}>
+          {faqs.map((faqs, index) => (
+            <Accordion.Item
+
+              eventKey={index}
+              style={{
+                marginBottom: "10px",
+                border: "1px solid",
+
+                borderRadius: "5px",
+              }}
+            >
+              {/* Accordion Header */}
+              <Accordion.Header
+                style={{
+
+                  padding: "10px 15px",
+                  fontWeight: "bold",
+                  borderTopLeftRadius: "5px",
+                  borderTopRightRadius: "5px",
+                }}
+              >
+                <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span>
+                    {faqs.title}
+                  </span>
+
+                </div>
+
+              </Accordion.Header>
+
+              {/* Accordion Body */}
+              <Accordion.Body
+                style={{
+
+                  padding: "15px",
+                  borderBottomLeftRadius: "5px",
+                  borderBottomRightRadius: "5px",
+                }}
+              >
+                <p>
+                  <strong></strong> {faqs.body}
+                </p>
+
+
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </section>
 
       {/* Contact Support Section */}
       <section>

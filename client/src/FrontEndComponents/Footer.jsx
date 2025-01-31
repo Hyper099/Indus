@@ -14,13 +14,13 @@ const Footer = () => {
         <Col md={6} style={{ textAlign: "left" }}>
           <p className="text-muted"><a href="/home">Home</a></p>
         </Col>
-        <Col md={6} style={{ textAlign: "left" }}>
+        <Col md={6} style={{ textAlign: "right" }}>
           <p className="text-muted"><a href="/MyComplaints">My Complaints</a></p>
         </Col>
         <Col md={6} style={{ textAlign: "left" }}>
           <p className="text-muted"><a href="/Contact">Help and Support</a></p>
         </Col>
-        <Col md={6} style={{ textAlign: "left" }}>
+        <Col md={6} style={{ textAlign: "right" }}>
           <p className="text-muted"><a href="/AboutUsNew">About Us</a></p>
         </Col>
       </Row>
