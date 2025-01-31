@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import "../styles/navbar.css";
@@ -54,12 +54,16 @@ const Header = () => {
             </Nav.Link>
             {user && (
               <>
-                <Nav.Link as={Link} to="/ComplaintForm" className="text-white me-3">
-                  <i className="fa-light fa-pen"></i> Complaint Registration
-                </Nav.Link>
-                <Nav.Link as={Link} to="/MyComplaints" className="text-white me-3">
-                  <i className="fa-regular fa-circle-exclamation"></i> My Complaints
-                </Nav.Link>
+                <NavDropdown title="Complaints" id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/ComplaintForm" className="text-black me-3">
+                   Complaint Registration
+                </NavDropdown.Item>
+                <NavDropdown.Item  as={Link} to="/MyComplaints" className="text-black me-3">
+                   My Complaints
+                   </NavDropdown.Item>
+                </NavDropdown>
+                
+                
                 <Nav.Link as={Link} to="/notifications" className="text-white me-3">
                   <i className="fa-regular fa-circle-exclamation"></i> Notifications
                 </Nav.Link>
