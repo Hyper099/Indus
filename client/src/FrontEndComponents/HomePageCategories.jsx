@@ -91,7 +91,7 @@ const HomePageCategories = () => {
   };
 
   return (
-    <Container style={{ marginTop: "30px" }}>
+    <Container style={{ marginTop: "30px", padding: "20px", borderRadius: "50px" }}>
       <h1 style={{ color: "#0047AB", textAlign: "center", marginBottom: "30px" }}>
         Register Your Complaint
       </h1>

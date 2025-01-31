@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import Emblem from "../Graphics/Emblem.png";
 import "../styles/navbar.css";
 
 const Header = () => {
@@ -38,9 +39,14 @@ const Header = () => {
   };
 
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" className="fixed-header shadow-sm">
+    <Navbar bg="primary" variant="dark" expand="lg" className="fixed-header shadow-sm align-content-center">
       <Container>
         <Navbar.Brand as={Link} to="/home" className="fw-bold fs-4 text-white">
+          <img
+            src={Emblem}
+            alt="AMC Logo"
+            className="logo-image  mx-3 rounded "
+            width="60"></img>
           AMC
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -68,7 +74,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/Contact" className="text-white me-3">
               <i className="fa-regular fa-question"></i> Help and Support
             </Nav.Link>
-            
+
             {user ? (
               <>
                 <span className="text-white me-3">Welcome, {user.name}</span>
