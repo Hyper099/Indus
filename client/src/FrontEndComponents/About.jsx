@@ -1,5 +1,8 @@
 import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import image1 from "../Graphics/Image1.jpeg";
+import image2 from "../Graphics/image2.jpeg";
+import image3 from "../Graphics/image3.jpeg";
 
 const AboutUs = () => {
   return (
@@ -48,13 +51,13 @@ const AboutUs = () => {
             <h3 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px' }}>Gallery</h3>
             <Row>
               <Col md={4}>
-                <img src="image-placeholder-1.jpg" alt="Image 1" style={{ width: '100%', borderRadius: '8px' }} />
+                <img src={image1} alt="Image 1" style={{ width: '100%', borderRadius: '8px' }} />
               </Col>
               <Col md={4}>
-                <img src="image-placeholder-2.jpg" alt="Image 2" style={{ width: '100%', borderRadius: '8px' }} />
+                <img src={image2} alt="Image 2" style={{ width: '100%', borderRadius: '8px' }} />
               </Col>
               <Col md={4}>
-                <img src="image-placeholder-3.jpg" alt="Image 3" style={{ width: '100%', borderRadius: '8px' }} />
+                <img src={image3} alt="Image 3" style={{ width: '100%', borderRadius: '8px' }} />
               </Col>
             </Row>
           </Col>
