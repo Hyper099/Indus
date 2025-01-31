@@ -76,7 +76,7 @@ function ComplaintForm() {
       landmark,
       preferredContact,
       area,
-     
+
     })
       .then(result => {
         console.log(result);
@@ -154,6 +154,8 @@ function ComplaintForm() {
                 <option value="Streetlights">Streetlights</option>
                 <option value="Contaminated Water Bodies">Contaminated Water Bodies</option>
                 <option value="Mosquitoes">Mosquitoes</option>
+                <option value="Cyber Crime">Cyber Crime</option>
+                <option value="Other">Other</option>
               </Form.Control>
             </Form.Group>
 
