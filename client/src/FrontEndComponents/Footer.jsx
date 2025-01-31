@@ -5,7 +5,7 @@ import "../styles/footer.css";
 const Footer = () => {
   return (
     <footer className="footer bg-light text-center py-3 mt-auto" >
-      <div style={{ paddingTop: "300px"}}>
+      <div style={{ paddingTop: "10px"}}>
       <Container >
       <Row className="align-items-center">
         <Row md={2} style={{ textAlign: "left" }}>

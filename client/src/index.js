@@ -91,7 +91,6 @@ const AppRoutes = () => {
             <>
               {renderHeader()}
               <MyComplaints />
-              {renderFooter()}
             </>
           }
         />
@@ -109,7 +108,6 @@ const AppRoutes = () => {
           <>
             {renderHeader()}
             <Notifications />
-            {renderFooter()}
           </>} />
 
         <Route
@@ -129,6 +127,7 @@ const AppRoutes = () => {
               <>
                 {renderHeader()}
                 <Home />
+                {renderFooter()}
               </>
             </ProtectedRoute>
           }
