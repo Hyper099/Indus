@@ -4,8 +4,9 @@ import "../styles/footer.css";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-light text-center py-3 mt-auto">
-      <Container>
+    <footer className="footer bg-light text-center py-3 mt-auto" >
+      <div style={{ paddingTop: "300px"}}>
+      <Container >
       <Row className="align-items-center">
         <Row md={2} style={{ textAlign: "left" }}>
         <p className="text-muted">&copy; 2025 AMC. All Rights Reserved.</p>
@@ -25,6 +26,7 @@ const Footer = () => {
       </Row>
         
       </Container>
+      </div>
     </footer>
   );
 };

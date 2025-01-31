@@ -31,6 +31,8 @@ function AdminDashboard() {
       }
    };
 
+  
+
    const handleViewComplaint = (complaint) => {
       setSelectedComplaint(complaint);
       setStatusUpdate(complaint.status);
@@ -113,6 +115,8 @@ function AdminDashboard() {
       escalated: complaints.filter((c) => c.status === "escalated").length,
    };
 
+   
+
    return (
       <Container fluid className="py-4 px-4">
          <Row className="mb-4 g-3">
@@ -154,12 +158,21 @@ function AdminDashboard() {
             <Card.Body>
                <div className="d-flex justify-content-between align-items-center mb-4">
                   <h2 className="mb-0">Admin Dashboard</h2>
-              
+                  <Button
+                    variant="danger"
+                     onClick={() => setShowEmergencyModal(true)}
+                     className="d-flex align-items-center"
+                  >
+                     <i className="fas fa-exclamation-triangle me-2"></i>
+                     Issue Emergency Warning
+                  </Button>
                </div>
 
                <Card className="border-0 shadow-sm">
                   <Card.Header className="bg-white">
                      <h5 className="mb-0">Complaints Management</h5>
+
+                   
                   </Card.Header>
                   <Card.Body>
                      <Table responsive hover className="align-middle mb-0">
@@ -172,7 +185,7 @@ function AdminDashboard() {
                               <th>Urgency</th>
                               <th>Status</th>
                               <th>Date</th>
-                              <th>Actions</th>
+                            
 
                            </tr>
                         </thead>
@@ -197,15 +210,9 @@ function AdminDashboard() {
                                        <td>{complaint.description.substring(0, 100)}...</td>
                                        <td>{getUrgencyBadge(complaint.urgency)}</td>
                                        <td>{getStatusBadge(complaint.status)}</td>
-                                       <td>{complaint.createdAt}</td>
+                                       <td>{new Date(complaint.createdAt).toLocaleString()}</td>
                                        <td>
-                                          <Button
-                                             variant="outline-primary"
-                                             size="sm"
-                                             onClick={() => handleViewComplaint(complaint)}
-                                          >
-                                             View / Update
-                                          </Button>
+                                        
                                        </td>
                                     </tr>
                                  ))

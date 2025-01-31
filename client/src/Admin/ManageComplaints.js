@@ -127,7 +127,7 @@ const ManageComplaints = () => {
                         <tbody>
                            {groupedComplaints[category].map((complaint) => (
                               <tr key={complaint._id}>
-                                 <td>{complaint.contact.name || 'Anonymous'}</td>
+                                 <td>{complaint.contact.name}</td>
                                  <td>{complaint.contact.phone}</td>
                                  <td>{complaint.area}</td>
                                  <td>{complaint.description}</td>
@@ -159,9 +159,9 @@ const ManageComplaints = () => {
                   <>
                      <div className="mb-4">
                         <h5>Complaint Details</h5>
-                        <p><strong>Subject:</strong> {selectedComplaint.subject}</p>
+                        <p><strong>Category:</strong> {selectedComplaint.category}</p>
                         <p><strong>Description:</strong> {selectedComplaint.description}</p>
-                        <p><strong>Submitted by:</strong> {selectedComplaint.userId?.name || 'Anonymous'}</p>
+                        <p><strong>Submitted by:</strong> {selectedComplaint.contact.name}</p>
                         <p><strong>Date:</strong> {new Date(selectedComplaint.createdAt).toLocaleString()}</p>
                      </div>
 

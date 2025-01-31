@@ -88,6 +88,8 @@ const HomePageCategories = () => {
     objectFit: "cover", // Maintain aspect ratio while cropping
     borderTopLeftRadius: "10px", // Match card's border radius
     borderTopRightRadius: "10px", // Match card's border radius
+   
+    
   };
 
   return (

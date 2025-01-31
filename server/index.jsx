@@ -7,7 +7,7 @@ const { auth, SECRET_KEY } = require("./auth.jsx");
 const jwt = require("jsonwebtoken");
 const UserModel = require("./Models/UserModel");
 const AdminModel = require("./Models/AdminModel");
-// const WarningModel = require("./Models/WarningModel.js")
+ const WarningModel = require("./Models/WarningModel.js")
 const ComplaintModel = require("./Models/ComplaintModel");
 
 // Middleware setup
@@ -297,6 +297,40 @@ app.delete("/admin/users/:id", auth, async (req, res) => {
     res.json({ message: "User deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Error deleting user", error: err });
+  }
+});
+
+
+
+// **Send emergency message (Admin only)**
+
+app.post("/emergency", auth, async (req, res) => {
+  if (!req.isAdmin) {
+    return res.status(403).json({ message: "Only admins can send emergency messages" });
+  }
+
+  try {
+    const { message } = req.body;
+    if (!message) {
+      return res.status(400).json({ message: "Message is required" });
+    }
+
+    const newWarning = new WarningModel({ warning: message });
+    await newWarning.save();
+
+    res.json({ message: "Emergency message sent and stored successfully", data: newWarning });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to send emergency message", error: err.message });
+  }
+});
+
+//warning alert for users
+app.get("/warnings", auth, async (req, res) => {
+  try {
+    const warnings = await WarningModel.find().sort({ createdAt: -1 }).limit(1); 
+    res.json(warnings);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching warnings", error: error.message });
   }
 });
 
